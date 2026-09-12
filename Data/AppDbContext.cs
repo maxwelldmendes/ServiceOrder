@@ -1,10 +1,32 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore
 
+
+using ServiceOrderManager.Models;
+using System.Reflection;
+
 namespace ServiceOrderManager.Data
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : IdentityDbContext<SystemUser>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
+        {
+        }
+    
+        public DbSet<Address> Address { get; set; }
+        public DbSet<Client> Client { get; set; }
+        public DbSet<FieldTechnician> FieldTechnician { get; set; }
+        public DbSet<PartItem> PartItem { get; set; }
+        public DbSet<ServiceItem> ServiceItem { get; set; }
+        public DbSet<ServiceOrder> ServiceOrder { get; set; }
+        public DbSet<SystemUser> SystemUser { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Automatically finds and applies all implementations of IEntityTypeConfiguration in this assembly
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
+
     }
-}
