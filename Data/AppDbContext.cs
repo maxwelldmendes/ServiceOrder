@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore
+using Microsoft.EntityFrameworkCore;
 
 
 using ServiceOrderManager.Models;
@@ -9,13 +9,13 @@ namespace ServiceOrderManager.Data
 {
     public class AppDbContext : IdentityDbContext<SystemUser>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) 
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
-    
+
         public DbSet<Address> Address { get; set; }
         public DbSet<Client> Client { get; set; }
-        public DbSet<FieldTechnician> FieldTechnician { get; set; }
+        public DbSet<Technician> Technician { get; set; }
         public DbSet<PartItem> PartItem { get; set; }
         public DbSet<ServiceItem> ServiceItem { get; set; }
         public DbSet<ServiceOrder> ServiceOrder { get; set; }
@@ -30,3 +30,4 @@ namespace ServiceOrderManager.Data
         }
 
     }
+}

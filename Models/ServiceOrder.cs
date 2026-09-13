@@ -17,10 +17,10 @@ public class ServiceOrder
 
     // Relacionamento Técnico (Opcional na abertura, obrigatório ao iniciar)
     public int? TechnicianId { get; set; }
-    public SystemUser? Technician { get; set; }
+    public Technician? Technician { get; set; }
 
     // Composições da OS
     public ICollection<ServiceItem> ServiceItem { get; set; } = new List<ServiceItem>();
-    public ICollection<PartItem> ItensPecas { get; set; } = new List<PartItem>();
+    public ICollection<PartItem> PartItems { get; set; } = new List<PartItem>();
 }
 

@@ -20,5 +20,6 @@ namespace ServiceOrderManager.Models
         public Address? MailAddress { get; set; }
 
         // Relacionamento: 1 Cliente possui muitas OS
-        public ICollection<ServiceOrder> ServiceOrder { get; set; } = new List<ServiceOrder>();
+        public ICollection<ServiceOrder> ServiceOrders { get; set; } = new List<ServiceOrder>();
     }
+}

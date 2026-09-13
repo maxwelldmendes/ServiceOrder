@@ -6,13 +6,37 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 1. Configurar a Connection String para o SQL Server
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 
 // 2. Configurar os Serviços do Identity
 builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>()
+    .AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        // Configurações de Senha
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequiredLength = 8;
+
+        // Configurações de Bloqueio de Conta
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        options.Lockout.MaxFailedAccessAttempts = 5;
+
+        // Configurações de Usuário
+        options.User.RequireUniqueEmail = true;
+    })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
+
+    builder.Services.ConfigureApplicationCookie(options =>
+    {
+        options.LoginPath = "/Account/Login"; // Caminho para onde o usuário é redirecionado se não estiver logado
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Acesso negado
+        options.ExpireTimeSpan = TimeSpan.FromDays(7); // Tempo de vida do cookie
+    });
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -26,10 +26,6 @@ namespace ServiceOrderManager.Data.Configuration
                    .HasForeignKey<Client>(c => c.MailAddressId) // Enforces uniqueness on this foreign key
                    .OnDelete(DeleteBehavior.Restrict)
                    .IsRequired();
-
-            builder.Property(c => c.CompanyAddress).IsRequired();
-            builder.Property(c => c.MailAddress).IsRequired();
-
         }
     }
 }
