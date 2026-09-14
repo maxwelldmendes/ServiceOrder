@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceOrderManager.Models;
 using System.Diagnostics;
 
 namespace ServiceOrderManager.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()

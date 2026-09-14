@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ServiceOrderManager.Data;
+using ServiceOrderManager.Data.Services;
+using ServiceOrderManager.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(conn
 
 // 2. Configurar os Serviços do Identity
 builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>(options =>
+    .AddIdentity<SystemUser, IdentityRole>(options =>
     {
         // Configurações de Senha
         options.Password.RequireDigit = true;
@@ -64,4 +66,24 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+// ADICIONE ESTE BLOCO LOGO ANTES DO app.Run()
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        // Garanta que os tipos aqui coincidam com o que foi registrado no builder.Services
+        var userManager = services.GetRequiredService<UserManager<SystemUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+        // Executa a alimentação inicial do banco
+        await ContextSeed.SeedRolesAsync(roleManager);
+        await ContextSeed.SeedAdminAsync(userManager);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocorreu um erro ao alimentar o banco de dados.");
+    }
+}
 app.Run();

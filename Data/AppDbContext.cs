@@ -20,6 +20,8 @@ namespace ServiceOrderManager.Data
         public DbSet<ServiceItem> ServiceItem { get; set; }
         public DbSet<ServiceOrder> ServiceOrder { get; set; }
         public DbSet<SystemUser> SystemUser { get; set; }
+        public DbSet<ServiceAppointment> ServiceAppointments { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

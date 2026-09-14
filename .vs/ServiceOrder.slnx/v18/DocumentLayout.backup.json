@@ -1,12 +1,61 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\views\\appointments\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:views\\appointments\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\views\\appointments\\index1.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:views\\appointments\\index1.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 183,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index1.cshtml",
+              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Appointments\\Index1.cshtml",
+              "RelativeDocumentMoniker": "Views\\Appointments\\Index1.cshtml",
+              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Appointments\\Index1.cshtml",
+              "RelativeToolTip": "Views\\Appointments\\Index1.cshtml",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAAAJUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-14T01:23:35.937Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 217,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Appointments\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Appointments\\Index.cshtml",
+              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Appointments\\Index.cshtml",
+              "RelativeToolTip": "Views\\Appointments\\Index.cshtml",
+              "ViewState": "AgIAAIUAAAAAAAAAAAAAAKQAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-09-14T01:49:52.378Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

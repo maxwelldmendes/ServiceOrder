@@ -324,6 +324,46 @@ namespace ServiceOrderManager.Migrations
                     b.ToTable("PartItem");
                 });
 
+            modelBuilder.Entity("ServiceOrderManager.Models.ServiceAppointment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AssignedTechnicianId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AssignedTechnicianId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ServiceAppointments");
+                });
+
             modelBuilder.Entity("ServiceOrderManager.Models.ServiceItem", b =>
                 {
                     b.Property<int>("Id")
@@ -563,6 +603,25 @@ namespace ServiceOrderManager.Migrations
                         .IsRequired();
 
                     b.Navigation("ServiceOrder");
+                });
+
+            modelBuilder.Entity("ServiceOrderManager.Models.ServiceAppointment", b =>
+                {
+                    b.HasOne("ServiceOrderManager.Models.Technician", "AssignedTechnician")
+                        .WithMany()
+                        .HasForeignKey("AssignedTechnicianId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ServiceOrderManager.Models.Client", "ClientAssigned")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AssignedTechnician");
+
+                    b.Navigation("ClientAssigned");
                 });
 
             modelBuilder.Entity("ServiceOrderManager.Models.ServiceItem", b =>
