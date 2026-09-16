@@ -1,0 +1,67 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model ServiceOrderManager.Models.ViewModels.ClientViewModel
+
+@{
+    ViewData["Title"] = "Edit Client";
+}
+<form asp-action="EditClient" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="Id" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="EINumber" class="form-label"></label>
+        <input asp-for="EINumber" class="form-control" />
+        <span asp-validation-for="EINumber" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PrimaryPhone" class="form-label"></label>
+        <input asp-for="PrimaryPhone" class="form-control" />
+        <span asp-validation-for="PrimaryPhone" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PrimaryEmail" class="form-label"></label>
+        <input asp-for="PrimaryEmail" class="form-control" />
+        <span asp-validation-for="PrimaryEmail" class="text-danger"></span>
+    </div>
+
+    <h5>Endereço Comercial</h5>
+
+    <input asp-for="CompanyAddress.Street1" class="form-control mb-2" />
+    <input asp-for="CompanyAddress.Street2" class="form-control mb-2" />
+    <input asp-for="CompanyAddress.City" class="form-control mb-2" />
+    <input asp-for="CompanyAddress.State" class="form-control mb-2" />
+    <input asp-for="CompanyAddress.ZipCode" class="form-control mb-2" />
+    <input asp-for="CompanyAddress.Country" class="form-control mb-3" />
+
+    <h5>Endereço de Correspondência</h5>
+
+    <input asp-for="MailAddress.Street1" class="form-control mb-2" />
+    <input asp-for="MailAddress.Street2" class="form-control mb-2" />
+    <input asp-for="MailAddress.City" class="form-control mb-2" />
+    <input asp-for="MailAddress.State" class="form-control mb-2" />
+    <input asp-for="MailAddress.ZipCode" class="form-control mb-2" />
+    <input asp-for="MailAddress.Country" class="form-control mb-3" />
+
+    <button type="submit" class="btn btn-primary">
+        <i class="bi bi-save"></i> Save
+    </button>
+
+    <a asp-action="Index" class="btn btn-secondary">
+        Cancel
+    </a>
+</form>

@@ -10,7 +10,7 @@ namespace ServiceOrderManager.Data.Configuration
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Street1).IsRequired().HasMaxLength(100);
-            builder.Property(c => c.Street2).HasMaxLength(100);
+            builder.Property(c => c.Street2).HasMaxLength(100).IsRequired(false);
             builder.Property(c => c.City).IsRequired().HasMaxLength(100);
             builder.Property(c => c.State).IsRequired().HasMaxLength(100);
             builder.Property(c => c.ZipCode).IsRequired().HasMaxLength(10);

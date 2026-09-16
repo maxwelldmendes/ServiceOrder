@@ -1,0 +1,112 @@
+﻿@model IEnumerable<ServiceOrderManager.Models.ViewModels.ClientViewModel>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0 text-gray-800">Clients</h1>
+            <p class="text-muted small mb-0">Management and listing of registered clients</p>
+        </div>
+        <a asp-action="CreateClient" class="btn btn-primary shadow-sm">
+            <i class="bi bi-person-fill-add me-1"></i> New Client
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">@Html.DisplayNameFor(model => model.Id)</th>
+                            <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.Name)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.EINumber)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.PrimaryPhone)</th>
+                            <th scope="col">@Html.DisplayNameFor(model => model.PrimaryEmail)</th>
+                            <th scope="col">City/State (Company)</th>
+                            <th scope="col" class="text-end pe-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center py-4 text-muted">
+                                    There is not a Cliente in the database.
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model)
+                            {
+
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                                    <td class="ps-3 fw-semibold">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.EINumber)
+                                    </td>
+                                    <td>
+                                        <a href="tel:@item.PrimaryPhone" class="text-decoration-none text-body">
+                                            @Html.DisplayFor(modelItem => item.PrimaryPhone)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="mailto:@item.PrimaryEmail" class="text-decoration-none text-body">
+                                            @Html.DisplayFor(modelItem => item.PrimaryEmail)
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @if (item.CompanyAddress != null)
+                                        {
+                                            <span>@item.CompanyAddress.City / @item.CompanyAddress.State</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">—</span>
+                                        }
+                                    </td>
+                                    <td class="text-end pe-3">
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                                            <a asp-action="DetailClient"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-info">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+
+                                            <a asp-action="EditClient"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-warning">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+
+                                            <a asp-action="DeleteClient"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-danger">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

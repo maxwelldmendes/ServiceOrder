@@ -237,7 +237,6 @@ namespace ServiceOrderManager.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Street2")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -264,8 +263,8 @@ namespace ServiceOrderManager.Migrations
 
                     b.Property<string>("EINumber")
                         .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("MailAddressId")
                         .HasColumnType("int");
@@ -275,15 +274,15 @@ namespace ServiceOrderManager.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PrimariPhone")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("PrimeryEmail")
+                    b.Property<string>("PrimaryEmail")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("PrimaryPhone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
@@ -340,7 +339,8 @@ namespace ServiceOrderManager.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2");
@@ -353,7 +353,8 @@ namespace ServiceOrderManager.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
 
@@ -361,7 +362,7 @@ namespace ServiceOrderManager.Migrations
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("ServiceAppointments");
+                    b.ToTable("ServiceAppointments", (string)null);
                 });
 
             modelBuilder.Entity("ServiceOrderManager.Models.ServiceItem", b =>
@@ -610,13 +611,13 @@ namespace ServiceOrderManager.Migrations
                     b.HasOne("ServiceOrderManager.Models.Technician", "AssignedTechnician")
                         .WithMany()
                         .HasForeignKey("AssignedTechnicianId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ServiceOrderManager.Models.Client", "ClientAssigned")
                         .WithMany()
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("AssignedTechnician");

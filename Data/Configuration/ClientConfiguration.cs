@@ -11,9 +11,9 @@ namespace ServiceOrderManager.Data.Configuration
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Name).IsRequired().HasMaxLength(100);
-            builder.Property(c => c.EINumber).HasMaxLength(9);
-            builder.Property(c => c.PrimariPhone).IsRequired().HasMaxLength(20);
-            builder.Property(c => c.PrimeryEmail).IsRequired().HasMaxLength(100);
+            builder.Property(c => c.EINumber).HasMaxLength(10);
+            builder.Property(c => c.PrimaryPhone).IsRequired().HasMaxLength(20);
+            builder.Property(c => c.PrimaryEmail).IsRequired().HasMaxLength(100);
 
             builder.HasOne(c => c.CompanyAddress)
                    .WithOne() // Left empty because Address doesn't map backwards
