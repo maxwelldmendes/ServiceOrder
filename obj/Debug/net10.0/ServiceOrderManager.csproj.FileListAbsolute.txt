@@ -156,7 +156,7 @@ C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\rjsmcshtml.dswa.cache.
 C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\scopedcss\bundle\ServiceOrderManager.styles.css
 C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\scopedcss\projectbundle\ServiceOrderManager.bundle.scp.css
-C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\compressed\0bdf2c348b-{0}-b9sayid5wm-b9sayid5wm.gz
+C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\compressed\0bdf2c348b-{0}-ws5bob6n6g-ws5bob6n6g.gz
 C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\compressed\zuz918psfx-{0}-61n19gt1b8-61n19gt1b8.gz
 C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\compressed\co5ycwwp4o-{0}-xtxxf3hu2r-xtxxf3hu2r.gz
 C:\Projetos\ProjetosCSharp\ServiceOrder\obj\Debug\net10.0\compressed\8q2rnonaao-{0}-bqjiyaj88i-bqjiyaj88i.gz

@@ -3,8 +3,12 @@
   "WorkspaceRootPath": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\views\\client\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:views\\client\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +18,31 @@
       "DocumentGroups": [
         {
           "DockedWidth": 235,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAiwC0AAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-09-16T19:45:23.692Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Client\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Client\\Index.cshtml",
-              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Client\\Index.cshtml*",
-              "RelativeToolTip": "Views\\Client\\Index.cshtml*",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAFUAAAA+AAAAAAAAAA==",
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAANwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-09-16T04:29:59.915Z",
+              "WhenOpened": "2026-09-16T17:39:52.882Z",
               "EditorCaption": ""
             }
           ]
