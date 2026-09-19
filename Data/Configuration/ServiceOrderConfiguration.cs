@@ -7,7 +7,7 @@ namespace ServiceOrderManager.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<ServiceOrder> builder)
         {
-            builder.HasKey(c  => c.Id);
+            builder.HasKey(c => c.Id);
             builder.Property(c => c.Protocol).HasMaxLength(13);
             builder.Property(c => c.OpenDate).HasColumnType("datetime2").IsRequired();
             builder.Property(c => c.ClosedDate).HasColumnType("datetime2");

@@ -23,5 +23,5 @@ namespace ServiceOrderManager.Data.Configuration
         }
     }
 }
-    
+
 

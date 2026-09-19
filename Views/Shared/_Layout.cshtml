@@ -20,10 +20,12 @@
 
     
 </head>
-<body>
+
+<body class="
+        @(ViewData["IsLoginPage"] as bool? == true ? "login-layout" : "")
+        @(ViewData["IsRegisterPage"] as bool? == true ? "register-layout" : "")">
     <header>
         <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom shadow-sm">
-
             <div class="container-fluid">
 
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index">
@@ -32,16 +34,6 @@
                          style="max-width: 80px;"
                          alt="Logo" />
                 </a>
-
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar"
-                        aria-controls="mainNavbar"
-                        aria-expanded="false"
-                        aria-label="Alternar navegação">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
                 <div id="mainNavbar" class="collapse navbar-collapse">
                     <ul class="navbar-nav me-auto">
@@ -53,11 +45,6 @@
                                 Home
                             </a>
                         </li>
-
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                           
-                        }
                     </ul>
 
                     <ul class="navbar-nav">
@@ -91,145 +78,150 @@
         </nav>
     </header>
 
-    <div class="d-flex flex-column flex-md-row">
-
+    <div class="page-container">
         @if (SignInManager.IsSignedIn(User))
-{
-    <aside class="sidebar bg-primary text-white p-3">
+        {
+            <aside class="sidebar bg-primary text-white p-3">
+                <!-- Codigo 1 -->
+                <!-- Cabeçalho do menu -->
+                <div class="sidebar-header d-flex align-items-center gap-2 mb-4">
+                    <i class="bi bi-bar-chart-fill fs-4"></i>
+                    <span class="fs-5 fw-bold">Service Order</span>
+                </div>
 
-        <!-- Cabeçalho do menu -->
-        <div class="sidebar-header d-flex align-items-center gap-2 mb-4">
-            <i class="bi bi-bar-chart-fill fs-4"></i>
-            <span class="fs-5 fw-bold">Service Order</span>
-        </div>
+                <nav class="nav flex-column">
+                <!-- Dashboard -->
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="sidebar-link">
+                    <i class="bi bi-speedometer2 me-2"></i>
+                    Dashboard
+                </a>
 
-        <nav class="nav flex-column">
+                <!-- Usuários -->
+                @if (User.IsInRole("Admin"))
+                {
+                    <button class="sidebar-toggle collapsed"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#usersMenu"
+                            aria-expanded="false"
+                            aria-controls="usersMenu">
 
-            <!-- Dashboard -->
-            <a asp-controller="Home"
-               asp-action="Index"
-               class="sidebar-link">
-                <i class="bi bi-speedometer2 me-2"></i>
-                Dashboard
-            </a>
+                        <span>
+                            <i class="bi bi-people me-2"></i>
+                            Users
+                        </span>
 
-            <!-- Usuários -->
-            @if (User.IsInRole("Admin"))
-            {
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+
+                    <div id="usersMenu" class="collapse">
+                        <div class="submenu">
+                            <a asp-controller="Account"
+                               asp-action="Register"
+                               class="sidebar-link">
+                                <i class="bi bi-person-vcard me-2 "></i>
+                                Create a New User
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                <!-- Listas -->
                 <button class="sidebar-toggle collapsed"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#usersMenu"
+                        data-bs-target="#listsMenu"
                         aria-expanded="false"
-                        aria-controls="usersMenu">
+                        aria-controls="listsMenu">
 
                     <span>
-                        <i class="bi bi-people me-2"></i>
-                        Usuários
+                        <i class="bi bi-list-ul me-2"></i>
+                        Listas
                     </span>
 
                     <i class="bi bi-chevron-down"></i>
                 </button>
 
-                <div id="usersMenu" class="collapse">
+                <div id="listsMenu" class="collapse">
                     <div class="submenu">
-                        <a asp-controller="Account"
-                           asp-action="Register"
+
+                        <a asp-controller="Client"
+                           asp-action="Index"
                            class="sidebar-link">
-                            <i class="bi bi-person-vcard me-2"></i>
-                            Cadastrar usuário
+                            <i class="bi bi-person-lines-fill me-2"></i>
+                            Clients
                         </a>
+
                     </div>
                 </div>
-            }
 
-            <!-- Listas -->
-            <button class="sidebar-toggle collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#listsMenu"
-                    aria-expanded="false"
-                    aria-controls="listsMenu">
+                <div id="listsMenu" class="collapse">
+                    <div class="submenu">
 
-                <span>
-                    <i class="bi bi-list-ul me-2"></i>
-                    Listas
-                </span>
+                        <a asp-controller="Technician"
+                           asp-action="Index"
+                           class="sidebar-link">
+                            <i class="bi bi-person-lines-fill me-2"></i>
+                            Technicians
+                        </a>
 
-                <i class="bi bi-chevron-down"></i>
-            </button>
-
-            <div id="listsMenu" class="collapse">
-                <div class="submenu">
-
-                    <a asp-controller="Client"
-                       asp-action="Index"
-                       class="sidebar-link">
-                        <i class="bi bi-person-lines-fill me-2"></i>
-                        Clientes
-                    </a>
-
+                    </div>
                 </div>
-            </div>
 
-            <!-- Vendas e pagamentos -->
-            <button class="sidebar-toggle collapsed"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#salesMenu"
-                    aria-expanded="false"
-                    aria-controls="salesMenu">
+                <!-- Vendas e pagamentos -->
+                <button class="sidebar-toggle collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#salesMenu"
+                        aria-expanded="false"
+                        aria-controls="salesMenu">
 
-                <span>
-                    <i class="bi bi-credit-card me-2"></i>
-                    Vendas e pagamentos
-                </span>
+                    <span>
+                        <i class="bi bi-credit-card me-2"></i>
+                        Vendas e pagamentos
+                    </span>
 
-                <i class="bi bi-chevron-down"></i>
-            </button>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
 
-            <div id="salesMenu" class="collapse">
-                <div class="submenu">
+                <div id="salesMenu" class="collapse">
+                    <div class="submenu">
 
-                    <a asp-controller="Estimate"
-                       asp-action="Index"
-                       class="sidebar-link">
-                        <i class="bi bi-file-earmark-text me-2"></i>
-                        Orçamentos
-                    </a>
+                        <a asp-controller="Estimate"
+                           asp-action="Index"
+                           class="sidebar-link">
+                            <i class="bi bi-file-earmark-text me-2"></i>
+                            Orçamentos
+                        </a>
 
-                    <a asp-controller="Invoice"
-                       asp-action="Index"
-                       class="sidebar-link">
-                        <i class="bi bi-receipt me-2"></i>
-                        Faturas
-                    </a>
+                        <a asp-controller="Invoice"
+                           asp-action="Index"
+                           class="sidebar-link">
+                            <i class="bi bi-receipt me-2"></i>
+                            Faturas
+                        </a>
 
-                    <a asp-controller="Customer"
-                       asp-action="Index"
-                       class="sidebar-link">
-                        <i class="bi bi-person-badge me-2"></i>
-                        Clientes
-                    </a>
+                        <a asp-controller="Customer"
+                           asp-action="Index"
+                           class="sidebar-link">
+                            <i class="bi bi-person-badge me-2"></i>
+                            Clientes
+                        </a>
 
+                    </div>
                 </div>
-            </div>
+            </nav>
+            </aside>
+        }
 
-        </nav>
-    </aside>
-}
-
-
-    <div class="d-flex flex-column flex-md-row">
-        @* Sidebar *@
-
-        <div class="content-wrapper flex-grow-1">
-            <main role="main" class="container-fluid py-3">
+        <div class="content-wrapper flex-grow-1 work-layout">
+            <main role="main">
                 @RenderBody()
             </main>
         </div>
     </div>
-
 
     <footer class="border-top footer text-muted">
         <div class="container">

@@ -4,44 +4,74 @@
 
 @{
     ViewData["Title"] = "Login";
+    ViewData["IsLoginPage"] = true;
 }
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="card shadow-sm" style="width: 100%; max-width: 400px; border-radius: 10px;">
-        <div class="card-body p-4">
-            <h3 class="text-center mb-4 text-primary">Acessar Conta</h3>
+<div class="container">
+    <div class="card shadow-sm mx-auto"
+         style="width: 100%; max-width: 400px; border-radius: 10px;">
 
-            <!-- Inclui a ReturnUrl no formulário para manter o fluxo de navegação -->
-            <form asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4 text-primary">
+                Acessar Conta
+            </h3>
+
+            <form asp-action="Login"
+                  asp-route-returnurl="@ViewData["ReturnUrl"]"
+                  method="post">
+
+                <div asp-validation-summary="ModelOnly"
+                     class="text-danger small mb-3"></div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="Email" class="form-label font-weight-bold"></label>
-                    <input asp-for="Email" class="form-control" placeholder="exemplo@email.com" />
-                    <span asp-validation-for="Email" class="text-danger small"></span>
+                    <label asp-for="Email" class="form-label fw-bold"></label>
+                    <input asp-for="Email"
+                           class="form-control"
+                           placeholder="exemplo@email.com" />
+                    <span asp-validation-for="Email"
+                          class="text-danger small"></span>
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="Senha" class="form-label font-weight-bold"></label>
-                    <input asp-for="Senha" class="form-control" placeholder="Sua senha" />
-                    <span asp-validation-for="Senha" class="text-danger small"></span>
+                    <label asp-for="Senha" class="form-label fw-bold"></label>
+                    <input asp-for="Senha"
+                           type="password"
+                           class="form-control"
+                           placeholder="Sua senha" />
+                    <span asp-validation-for="Senha"
+                          class="text-danger small"></span>
                 </div>
 
                 <div class="form-check mb-4">
-                    <input asp-for="LembrarMe" class="form-check-input" />
-                    <label asp-for="LembrarMe" class="form-check-label text-muted small"></label>
+                    <input asp-for="LembrarMe"
+                           class="form-check-input" />
+
+                    <label asp-for="LembrarMe"
+                           class="form-check-label text-muted small">
+                    </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary w-100 py-2 mb-3">Entrar</button>
+                <button type="submit"
+                        class="btn btn-primary w-100 py-2 mb-3">
+                    Entrar
+                </button>
             </form>
 
             <div class="text-center d-flex justify-content-between">
-                <a href="#" class="text-decoration-none small text-muted">Esqueceu a senha?</a>
-                <a asp-action="Register" class="text-decoration-none small text-primary">Criar uma conta</a>
+                <a href="#"
+                   class="text-decoration-none small text-muted">
+                    Esqueceu a senha?
+                </a>
+
+                <a asp-action="Register"
+                   class="text-decoration-none small text-primary">
+                    Criar uma conta
+                </a>
             </div>
         </div>
     </div>
 </div>
+
 
 @section Scripts {
 @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

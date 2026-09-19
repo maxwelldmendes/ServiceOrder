@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ServiceOrderManager.Models;
-using System.Threading.Tasks;
-using ServiceOrderManager.Data.Services;
 
 namespace ServiceOrderManager.Data.Services
 {

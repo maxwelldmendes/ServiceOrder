@@ -491,17 +491,19 @@ namespace ServiceOrderManager.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(true);
 
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("Skils")
+                    b.Property<string>("Skills")
                         .IsRequired()
                         .HasMaxLength(2048)
                         .HasColumnType("nvarchar(2048)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Technician");
                 });
@@ -636,6 +638,17 @@ namespace ServiceOrderManager.Migrations
                     b.Navigation("ServiceOrder");
                 });
 
+            modelBuilder.Entity("ServiceOrderManager.Models.Technician", b =>
+                {
+                    b.HasOne("ServiceOrderManager.Models.SystemUser", "User")
+                        .WithOne("Technician")
+                        .HasForeignKey("ServiceOrderManager.Models.Technician", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("ServiceOrder", b =>
                 {
                     b.Navigation("PartItems");
@@ -646,6 +659,11 @@ namespace ServiceOrderManager.Migrations
             modelBuilder.Entity("ServiceOrderManager.Models.Client", b =>
                 {
                     b.Navigation("ServiceOrders");
+                });
+
+            modelBuilder.Entity("ServiceOrderManager.Models.SystemUser", b =>
+                {
+                    b.Navigation("Technician");
                 });
 
             modelBuilder.Entity("ServiceOrderManager.Models.Technician", b =>

@@ -32,12 +32,12 @@ builder.Services
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-    builder.Services.ConfigureApplicationCookie(options =>
-    {
-        options.LoginPath = "/Account/Login"; // Caminho para onde o usuário é redirecionado se não estiver logado
-        options.AccessDeniedPath = "/Account/AccessDenied"; // Acesso negado
-        options.ExpireTimeSpan = TimeSpan.FromDays(7); // Tempo de vida do cookie
-    });
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login"; // Caminho para onde o usuário é redirecionado se não estiver logado
+    options.AccessDeniedPath = "/Account/AccessDenied"; // Acesso negado
+    options.ExpireTimeSpan = TimeSpan.FromDays(7); // Tempo de vida do cookie
+});
 
 
 // Add services to the container.

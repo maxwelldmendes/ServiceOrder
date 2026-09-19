@@ -219,6 +219,6 @@ namespace ServiceOrderManager.Controllers
 
             TempData["SuccessMessage"] = "Client inserted in database!";
             return RedirectToAction(nameof(Index));
-        }  
+        }
     }
 }

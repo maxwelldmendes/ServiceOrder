@@ -1,0 +1,11 @@
+@startuml
+class Address {
+    + Id : int <<get>> <<set>>
+    + Street1 : string <<get>> <<set>>
+    + Street2 : string <<get>> <<set>>
+    + City : string <<get>> <<set>>
+    + State : string <<get>> <<set>>
+    + ZipCode : string <<get>> <<set>>
+    + Country : string <<get>> <<set>>
+}
+@enduml

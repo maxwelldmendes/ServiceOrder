@@ -23,4 +23,3 @@ public class ServiceOrder
     public ICollection<ServiceItem> ServiceItem { get; set; } = new List<ServiceItem>();
     public ICollection<PartItem> PartItems { get; set; } = new List<PartItem>();
 }
-

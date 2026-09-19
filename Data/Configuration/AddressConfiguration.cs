@@ -16,5 +16,5 @@ namespace ServiceOrderManager.Data.Configuration
             builder.Property(c => c.ZipCode).IsRequired().HasMaxLength(10);
             builder.Property(c => c.Country).IsRequired().HasMaxLength(3).HasDefaultValue("USA");
         }
-    } 
+    }
 }

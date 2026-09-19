@@ -1,0 +1,226 @@
+﻿@model ServiceOrderManager.Models.ViewModels.ClientViewModel
+
+@{
+    ViewData["Title"] = "Edit Client";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Update the Client</h2>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Back to List
+        </a>
+    </div>
+
+    <form asp-action="EditClient" method="post" class="needs-validation" novalidate>
+        @Html.AntiForgeryToken()
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <!-- Dados Gerais -->
+        <div class="card mb-4 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">General Data</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-content form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EINumber" class="form-label"></label>
+                        <input asp-for="EINumber" class="form-control" />
+                        <span asp-validation-for="EINumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PrimaryPhone" class="form-label"></label>
+                        <input asp-for="PrimaryPhone" class="form-control" />
+                        <span asp-validation-for="PrimaryPhone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PrimaryEmail" class="form-label"></label>
+                        <input asp-for="PrimaryEmail" class="form-control" />
+                        <span asp-validation-for="PrimaryEmail" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Endereço Comercial -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">Endereço Comercial</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="CompanyAddress.Street1" class="form-label"></label>
+                                <input asp-for="CompanyAddress.Street1" class="form-control" />
+                                <span asp-validation-for="CompanyAddress.Street1" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="CompanyAddress.Street2" class="form-label"></label>
+                                <input asp-for="CompanyAddress.Street2" class="form-control" />
+                                <!--
+                                <span asp-validation-for="CompanyAddress.Street2" class="text-danger"></span>
+                                -->
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CompanyAddress.City" class="form-label"></label>
+                                <input asp-for="CompanyAddress.City" class="form-control" />
+                                <span asp-validation-for="CompanyAddress.City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CompanyAddress.State" class="form-label"></label>
+                                <input asp-for="CompanyAddress.State" class="form-control" />
+                                <span asp-validation-for="CompanyAddress.State" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CompanyAddress.ZipCode" class="form-label"></label>
+                                <input asp-for="CompanyAddress.ZipCode" class="form-control" />
+                                <span asp-validation-for="CompanyAddress.ZipCode" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="CompanyAddress.Country" class="form-label"></label>
+                                <input asp-for="CompanyAddress.Country" class="form-control" />
+                                <span asp-validation-for="CompanyAddress.Country" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Endereço de Correspondência -->
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="mb-0">Endereço de Correspondência</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label asp-for="MailAddress.Street1" class="form-label"></label>
+                                <input asp-for="MailAddress.Street1" class="form-control" />
+                                <span asp-validation-for="MailAddress.Street1" class="text-danger"></span>
+                            </div>
+                            <div class="col-12">
+                                <label asp-for="MailAddress.Street2" class="form-label"></label>
+                                <input asp-for="MailAddress.Street2" class="form-control" />
+                                <!--
+                                <span asp-validation-for="MailAddress.Street2" class="text-danger"></span>
+                                -->
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="MailAddress.City" class="form-label"></label>
+                                <input asp-for="MailAddress.City" class="form-control" />
+                                <span asp-validation-for="MailAddress.City" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="MailAddress.State" class="form-label"></label>
+                                <input asp-for="MailAddress.State" class="form-control" />
+                                <span asp-validation-for="MailAddress.State" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="MailAddress.ZipCode" class="form-label"></label>
+                                <input asp-for="MailAddress.ZipCode" class="form-control" />
+                                <span asp-validation-for="MailAddress.ZipCode" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="MailAddress.Country" class="form-label"></label>
+                                <input asp-for="MailAddress.Country" class="form-control" />
+                                <span asp-validation-for="MailAddress.Country" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="form-check form-switch card p-3 shadow-sm d-flex align-items-center flex-row justify-content-start gap-3">
+                    <input class="form-check-input ms-0 mt-0" type="checkbox" id="syncAddressSwitch">
+                    <label class="form-check-label fw-bold" for="syncAddressSwitch">
+                        Same Company and Mail Address
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-5">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-check-circle"></i> Save Client
+            </button>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Mapeamento dos inputs de Origem (Comercial) para Destino (Correspondência)
+            const addressFields = [
+                { source: "CompanyAddress_Street1", target: "MailAddress_Street1" },
+                { source: "CompanyAddress_Street2", target: "MailAddress_Street2" },
+                { source: "CompanyAddress_City", target: "MailAddress_City" },
+                { source: "CompanyAddress_State", target: "MailAddress_State" },
+                { source: "CompanyAddress_ZipCode", target: "MailAddress_ZipCode" },
+                { source: "CompanyAddress_Country", target: "MailAddress_Country" }
+            ];
+
+            const syncSwitch = document.getElementById("syncAddressSwitch");
+
+            function syncFields() {
+                if (syncSwitch.checked) {
+                    addressFields.forEach(field => {
+                        const sourceInput = document.getElementById(field.source);
+                        const targetInput = document.getElementById(field.target);
+                        
+                        if (sourceInput && targetInput) {
+                            // Copia o valor atual
+                            targetInput.value = sourceInput.value;
+                            // Desabilita visualmente o campo de destino
+                            targetInput.readOnly = true;
+                            targetInput.classList.add("bg-light");
+                        }
+                    });
+                } else {
+                    addressFields.forEach(field => {
+                        const targetInput = document.getElementById(field.target);
+                        if (targetInput) {
+                            // Libera o campo para edição manual novamente
+                            targetInput.readOnly = false;
+                            targetInput.classList.remove("bg-light");
+                        }
+                    });
+                }
+            }
+
+            // Ouvinte para quando o usuário ativar/desativar a chave
+            syncSwitch.addEventListener("change", syncFields);
+
+            // Ouvinte para copiar em tempo real caso o usuário continue digitando no comercial com a chave ativa
+            addressFields.forEach(field => {
+                const sourceInput = document.getElementById(field.source);
+                if (sourceInput) {
+                    sourceInput.addEventListener("input", function () {
+                        if (syncSwitch.checked) {
+                            const targetInput = document.getElementById(field.target);
+                            if (targetInput) {
+                                targetInput.value = sourceInput.value;
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+}

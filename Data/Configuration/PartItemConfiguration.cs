@@ -14,7 +14,7 @@ namespace ServiceOrderManager.Data.Configuration
             builder.Property(e => e.UnitPrice).HasColumnType("decimal(18,2)");
 
             builder.Property(e => e.ServiceOrderId);
-            
+
 
             builder.HasOne(c => c.ServiceOrder)
                    .WithMany(s => s.PartItems)

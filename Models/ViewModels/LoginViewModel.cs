@@ -15,6 +15,6 @@ namespace ServiceOrderManager.Models.ViewModels
         public string Senha { get; set; } = string.Empty;
 
         [Display(Name = "Lembrar-me")]
-        public bool LembrarMe { get; set; }   
+        public bool LembrarMe { get; set; }
     }
 }

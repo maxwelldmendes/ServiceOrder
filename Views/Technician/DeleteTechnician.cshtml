@@ -1,0 +1,42 @@
+﻿@model ServiceOrderManager.Models.ViewModels.ClientViewModel
+
+@{
+    ViewData["Title"] = "Delete Client";
+}
+
+<div class="container mt-4">
+    <div class="card border-danger shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h4>Delete Client</h4>
+        </div>
+
+        <div class="card-body">
+            <h5>Tem certeza de que deseja excluir este cliente?</h5>
+
+            <dl class="row mt-3">
+                <dt class="col-sm-3">Nome</dt>
+                <dd class="col-sm-9">@Model.Name</dd>
+
+                <dt class="col-sm-3">E-mail</dt>
+                <dd class="col-sm-9">@Model.PrimaryEmail</dd>
+                 
+                <dt class="col-sm-3">Telefone</dt>
+                <dd class="col-sm-9">@Model.PrimaryPhone</dd>
+            </dl>
+
+            <form asp-action="DeleteClientById" method="post">
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Are you sure?
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>

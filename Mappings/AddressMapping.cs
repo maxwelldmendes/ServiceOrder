@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using ServiceOrderManager.Models;
+﻿using ServiceOrderManager.Models;
 using ServiceOrderManager.Models.ViewModels;
 
 namespace ServiceOrderManager.Mappings

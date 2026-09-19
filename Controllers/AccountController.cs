@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceOrderManager.Models;
 using ServiceOrderManager.Models.ViewModels;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 namespace ServiceOrderManager.Controllers
@@ -75,64 +74,64 @@ namespace ServiceOrderManager.Controllers
             _userManager = userManager;
         }
 
-            // GET: Account/Login
-            [HttpGet]
-            public IActionResult Login(string? returnUrl = null)
+        // GET: Account/Login
+        [HttpGet]
+        public IActionResult Login(string? returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+
+        // POST: Account/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            returnUrl ??= Url.Content("~/"); // Se não houver URL de retorno, vai para a Home
+
+            if (!ModelState.IsValid)
             {
-                ViewData["ReturnUrl"] = returnUrl;
-                return View();
-            }
-
-            // POST: Account/Login
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Login(LoginViewModel model, string? returnUrl = null)
-            {
-                ViewData["ReturnUrl"] = returnUrl;
-                returnUrl ??= Url.Content("~/"); // Se não houver URL de retorno, vai para a Home
-
-                if (!ModelState.IsValid)
-                {
-                    return View(model);
-                }
-
-                // Realiza o login usando o e-mail (ou username), senha e a opção de persistência de cookie
-                // O último parâmetro 'lockoutOnFailure' bloqueia a conta após várias tentativas falhas (opcional)
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Senha, model.LembrarMe, lockoutOnFailure: false);
-
-                if (result.Succeeded)
-                {
-                    return LocalRedirect(returnUrl);
-                }
-
-                if (result.IsLockedOut)
-                {
-                    ModelState.AddModelError(string.Empty, "Conta bloqueada por excesso de tentativas.");
-                    return View(model);
-                }
-
-                // Erro genérico para segurança (não especificar se o erro foi no e-mail ou na senha)
-                ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                 return View(model);
             }
 
-            // POST: Account/Logout
-            [HttpPost]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Logout()
+            // Realiza o login usando o e-mail (ou username), senha e a opção de persistência de cookie
+            // O último parâmetro 'lockoutOnFailure' bloqueia a conta após várias tentativas falhas (opcional)
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Senha, model.LembrarMe, lockoutOnFailure: false);
+
+            if (result.Succeeded)
             {
-                await _signInManager.SignOutAsync();
-                return RedirectToAction("Index", "Home");
+                return LocalRedirect(returnUrl);
             }
-        
-    
+
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError(string.Empty, "Conta bloqueada por excesso de tentativas.");
+                return View(model);
+            }
+
+            // Erro genérico para segurança (não especificar se o erro foi no e-mail ou na senha)
+            ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
+            return View(model);
+        }
+
+        // POST: Account/Logout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
 
 
 
 
 
 
-    public IActionResult Index()
+
+
+        public IActionResult Index()
         {
             return View();
         }
