@@ -1,0 +1,248 @@
+---
+config:
+  layout: dagre
+  theme: redux-dark-color
+  look: neo
+---
+classDiagram
+
+    class Address {
+        +int Id
+        +string Street1
+        +string Street2
+        +string City
+        +string State
+        +string ZipCode
+        +string Country
+    }
+
+    class Client {
+        +int Id
+        +string Name
+        +string EINumber
+        +string PrimaryPhone
+        +string PrimaryEmail
+        +int CompanyAddressId
+        +int MailAddressId
+        +Address CompanyAddress
+        +Address MailAddress
+        +ICollection~ServiceOrder~ ServiceOrders
+    }
+
+    class ServiceOrder {
+        +int Id
+        +string Protocol
+        +DateTime OpenDate
+        +DateTime ClosedDate
+        +StatusOS Status
+        +string ProblemDescription
+        +string TechnicalSolution
+        +decimal TotalAmount
+        +int ClientId
+        +Client Client
+        +int TechnicianId
+        +Technician Technician
+        +ICollection~ServiceItem~ ServiceItems
+        +ICollection~PartItem~ PartItems
+    }
+
+    class ServiceItem {
+        +int Id
+        +string Description
+        +decimal HourPrice
+        +double WorkingHours
+        +decimal TotalService
+        +int ServiceOrderId
+        +ServiceOrder ServiceOrder
+    }
+
+    class PartItem {
+        +int Id
+        +string PartName
+        +int Amount
+        +decimal UnitPrice
+        +decimal TotalAmount
+        +int ServiceOrderId
+        +ServiceOrder ServiceOrder
+    }
+
+    class Technician {
+        +int Id
+        +string Skills
+        +bool Enabled
+        +string UserId
+        +SystemUser User
+        +ICollection~ServiceAppointment~ ServiceAppointments
+        +ICollection~ServiceOrder~ ServiceOrders
+    }
+
+    class ServiceAppointment {
+        +int Id
+        +string Title
+        +string Description
+        +DateTime StartTime
+        +DateTime EndTime
+        +int ClientId
+        +Client ClientAssigned
+        +AppointmentStatus Status
+        +int AssignedTechnicianId
+        +Technician AssignedTechnician
+    }
+
+    class SystemUser {
+        +string Id
+        +string UserName
+        +string NormalizedUserName
+        +string Email
+        +string NormalizedEmail
+        +bool EmailConfirmed
+        +string PasswordHash
+        +string SecurityStamp
+        +string ConcurrencyStamp
+        +string PhoneNumber
+        +bool PhoneNumberConfirmed
+        +bool TwoFactorEnabled
+        +DateTimeOffset LockoutEnd
+        +bool LockoutEnabled
+        +int AccessFailedCount
+
+        +string FirstName
+        +string MiddleName
+        +string LastName
+        +bool Enabled
+        +string UserRole
+
+        +Technician Technician
+        +ICollection~IdentityUserClaim~ Claims
+        +ICollection~IdentityUserLogin~ Logins
+        +ICollection~IdentityUserToken~ Tokens
+        +ICollection~IdentityUserRole~ UserRoles
+    }
+
+    class IdentityUser {
+        <<Microsoft.AspNetCore.Identity>>
+        +string Id
+        +string UserName
+        +string NormalizedUserName
+        +string Email
+        +string NormalizedEmail
+        +bool EmailConfirmed
+        +string PasswordHash
+        +string SecurityStamp
+        +string ConcurrencyStamp
+        +string PhoneNumber
+        +bool PhoneNumberConfirmed
+        +bool TwoFactorEnabled
+        +DateTimeOffset LockoutEnd
+        +bool LockoutEnabled
+        +int AccessFailedCount
+    }
+
+    class IdentityRole {
+        <<Microsoft.AspNetCore.Identity>>
+        +string Id
+        +string Name
+        +string NormalizedName
+        +string ConcurrencyStamp
+    }
+
+    class IdentityUserClaim {
+        <<Microsoft.AspNetCore.Identity>>
+        +int Id
+        +string UserId
+        +string ClaimType
+        +string ClaimValue
+    }
+
+    class IdentityUserLogin {
+        <<Microsoft.AspNetCore.Identity>>
+        +string LoginProvider
+        +string ProviderKey
+        +string ProviderDisplayName
+        +string UserId
+    }
+
+    class IdentityUserToken {
+        <<Microsoft.AspNetCore.Identity>>
+        +string UserId
+        +string LoginProvider
+        +string Name
+        +string Value
+    }
+
+    class IdentityUserRole {
+        <<Microsoft.AspNetCore.Identity>>
+        +string UserId
+        +string RoleId
+    }
+
+    class IdentityRoleClaim {
+        <<Microsoft.AspNetCore.Identity>>
+        +int Id
+        +string RoleId
+        +string ClaimType
+        +string ClaimValue
+    }
+
+    class IdentityDbContext {
+        <<Microsoft.AspNetCore.Identity.EntityFrameworkCore>>
+        +DbSet~SystemUser~ Users
+        +DbSet~IdentityRole~ Roles
+        +DbSet~IdentityUserClaim~ UserClaims
+        +DbSet~IdentityUserLogin~ UserLogins
+        +DbSet~IdentityUserToken~ UserTokens
+        +DbSet~IdentityUserRole~ UserRoles
+        +DbSet~IdentityRoleClaim~ RoleClaims
+    }
+
+    class StatusOS {
+        <<enumeration>>
+        Open = 1
+        Working = 2
+        Waiting = 3
+        Closed = 4
+        CAnceld = 5
+    }
+
+    class AppointmentStatus {
+        <<enumeration>>
+        Scheduled
+        Confirmed
+        Completed
+        Cancelled
+    }
+
+    SystemUser --|> IdentityUser
+
+    SystemUser "1" --> "0..*" IdentityUserClaim : possui claims
+    SystemUser "1" --> "0..*" IdentityUserLogin : possui logins
+    SystemUser "1" --> "0..*" IdentityUserToken : possui tokens
+    SystemUser "1" --> "0..*" IdentityUserRole : possui roles
+
+    IdentityRole "1" --> "0..*" IdentityUserRole : atribuída aos usuários
+    IdentityRole "1" --> "0..*" IdentityRoleClaim : possui claims
+
+    IdentityDbContext --> SystemUser : gerencia
+    IdentityDbContext --> IdentityRole : gerencia
+    IdentityDbContext --> IdentityUserClaim : gerencia
+    IdentityDbContext --> IdentityUserLogin : gerencia
+    IdentityDbContext --> IdentityUserToken : gerencia
+    IdentityDbContext --> IdentityUserRole : gerencia
+    IdentityDbContext --> IdentityRoleClaim : gerencia
+
+    Client "1" --> "1" Address : CompanyAddress
+    Client "1" --> "1" Address : MailAddress
+
+    Client "1" --> "0..*" ServiceOrder : possui
+    Technician "0..1" --> "0..*" ServiceOrder : atende
+
+    ServiceOrder "1" *-- "0..*" ServiceItem : contém
+    ServiceOrder "1" *-- "0..*" PartItem : contém
+
+    SystemUser "1" --> "0..1" Technician : perfil técnico
+
+    Client "0..1" --> "0..*" ServiceAppointment : possui
+    Technician "1" --> "0..*" ServiceAppointment : realiza
+
+    ServiceOrder --> StatusOS : status
+    ServiceAppointment --> AppointmentStatus : status

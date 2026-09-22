@@ -1,54 +1,137 @@
-﻿@model ServiceOrderManager.Models.ViewModels.TechnicianViewModel
+﻿@model ServiceOrderManager.Models.ViewModels.UserTechnicianViewModel
 
 @{
     ViewData["Title"] = "New Technician";
 }
 
 <div class="container mt-4">
+    
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Insert New Technician</h2>
         <a asp-action="Index" class="btn btn-secondary">
             <i class="bi bi-arrow-left"></i> Back to List
         </a>
     </div>
-
+    
     <form asp-action="CreateTechnician" method="post" class="needs-validation" novalidate>
         @Html.AntiForgeryToken()
+   
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3">
+        </div>
+       
+        <!-- Dados Gerais -->
+        <div class="card mb-4 shadow-sm">
+            
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">General Data</h5>
+            </div>
+                
+            <div class="card-body">
+        
+                <div class="mb-3">
+                    <label asp-for="SelectedUserId" class="form-label" id="techList">Technician selected</label>
 
-        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-            <!-- Dados Gerais -->
-            <div class="card mb-4 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">General Data</h5>
+                    <select id="userSelect" class="form-select" asp-for="SelectedUserId" asp-items="Model.AvailableUsers" >
+                        <option value="">-- Selecione um Usuário --</option>
+                    </select>
+                    <span asp-validation-for="SelectedUserId" class="text-danger"></span>
                 </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-12">
-                            <label asp-for="Skills" class="form-label"></label>
-                            <input asp-for="Skills" class="form-content form-control" />
-                            <span asp-validation-for="Skills" class="text-danger"></span>
-                        </div>
+                <div class="mb-1">
+                    <label asp-for="FirstName" class="form-label">First name</label>
+                    <input asp-for="FirstName" class="form-control" id="firstNameInput" readonly disabled/> 
+                </div>
+                <div class="mb-1">
+                    <label asp-for="Middlename" class="form-label">Middle name</label>
+                    <input asp-for="Middlename" class="form-control" id="middleNameInput" readonly disabled />
+                </div>
+                <div class="mb-1">
+                    <label asp-for="LastName" class="form-label">Last name</label>
+                    <input asp-for="LastName" class="form-control" id="lastNameInput" readonly disabled/>
+                </div>
+                <div class="mb-1">
+                    <label asp-for="UserName" class="form-label">User name</label>
+                    <input asp-for="UserName" class="form-control" id="userNameInput" readonly disabled/>
+                </div>
+                <div class="mb-1">
+                    <label asp-for="UserEmail" class="form-label">eMail</label>
+                    <input asp-for="UserEmail" class="form-control" id="userEmailInput" readonly disabled/>
+                </div>
+                <div class="mb-1">
+                    <label asp-for="PhoneNumber" class="form-label">Phone number</label>
+                    <input asp-for="PhoneNumber" class="form-control" id="phoneNumberInput" readonly disabled/>
+                </div>
+                <div class="mb-1">
+                    <label asp-for="UserRole" class="form-label">User role</label>
+                    <input asp-for="UserRole" class="form-control" id="userRoleInput" readonly disabled/>
+                </div>
+                
+                <!-- Campos descomentados com IDs adicionados -->
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label asp-for="Skills" class="form-label"></label>
+                        <input asp-for="Skills" id="inputSkills" class="form-control" />
+                        <span asp-validation-for="Skills" class="text-danger"></span>
+                    </div>
 
-                        <div class="col-md-1">
-                            <div class="form-check mt-4">
-                                <input asp-for="Enabled" class="form-check-input" />
-                                <label asp-for="Enabled" class="form-check-label"></label>
-                                <span asp-validation-for="Enabled" class="text-danger"></span>
-                            </div>
+                    <div class="col-md-12">
+                        <div class="form-check mt-4">
+                            <input asp-for="Enabled" id="checkEnabled" class="form-check-input" />
+                            <label asp-for="Enabled" class="form-check-label"></label>
+                            <span asp-validation-for="Enabled" class="text-danger"></span>
                         </div>
                     </div>
-                </div>
+                </div>                  
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-1">
-                <button type="submit" class="btn btn-primary btn-lg">
-                    <i class="bi bi-check-circle"></i> Save Client
-                </button>
-            </div>
-
+        </div>
+             
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end mb-1">
+            <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-check-circle"></i> Save Technician
+            </button>
+        </div>
+        
     </form>
+    
 </div>
 
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script>
+    const selectedID = document.getElementById("userSelect");
+
+    selectedID.addEventListener("change", async function () {
+
+        const userId = this.value;
+            
+        // Clear fields if the placeholder option is selected
+        if (!userId) {
+            clearFormFields();
+            return;
+        }
+
+        try {
+            const response = await fetch(`/Technician/GetUserDetails?userId=${encodeURIComponent(userId)}`);
+            if (!response.ok) throw new Error("User data not found.");
+
+            const data = await response.json();
+
+            // Map the dynamic data payload to the inputs
+            document.getElementById("firstNameInput").value = data.firstName ?? "";
+            document.getElementById("middleNameInput").value = data.middleName ?? "";
+            document.getElementById("lastNameInput").value = data.lastName ?? "";
+            document.getElementById("userNameInput").value = data.userName ?? "";
+            document.getElementById("userEmailInput").value = data.email ?? "";
+            document.getElementById("phoneNumberInput").value = data.phoneNumber ?? "";
+            document.getElementById("userRoleInput").value = data.userRole ?? "";
+        } catch (error) {
+            console.error("Error fetching user details:", error);
+        }
+    });
+</script>
+
+<script>
+    function clearFormFields() {
+        const fields = ["firstNameInput", "middleNameInput", "lastNameInput", "userNameInput", "userEmailInput", "phoneNumberInput", "userRoleInput";
+        fields.forEach(id => document.getElementById(id).value = "");
+    }
+</script>
+

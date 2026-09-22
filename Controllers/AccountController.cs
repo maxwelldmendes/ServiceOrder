@@ -13,14 +13,13 @@ namespace ServiceOrderManager.Controllers
         private readonly SignInManager<SystemUser> _signInManager;
         private readonly UserManager<SystemUser> _userManager;
 
-
         // GET: Account/Register
         [HttpGet]
         [Authorize(Roles = "Admin")] // Bloqueia o acesso para quem não é Admin
         public IActionResult Register()
         {
             // Carrega uma lista estática de perfis para o Select da View
-            ViewBag.Roles = new SelectList(new[] { "Admin", "User", "Manager" });
+            ViewBag.Roles = new SelectList(new[] { "Admin", "Manager", "Technician", "User" });
             return View();
         }
 
@@ -63,7 +62,7 @@ namespace ServiceOrderManager.Controllers
                 }
             }
 
-            ViewBag.Roles = new SelectList(new[] { "Admin", "User", "Manager" }, model.UserRole);
+            ViewBag.Roles = new SelectList(new[] { "Admin", "Manager", "Technician", "User",  }, model.UserRole);
             return View(model);
         }
 
