@@ -26,27 +26,42 @@ namespace ServiceOrderManager.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var userTechsVM = await (
-                from tech in _context.Technician
-                join user in _context.SystemUser
-                    on tech.UserId equals user.Id
-                select new UserTechnicianViewModel
-                {
-                    Id = tech.Id,
-                    SelectedUserId = user.Id,
-                    FirstName = user.FirstName,
-                    Middlename = user.MiddleName,
-                    LastName = user.LastName,
-                    UserName = user.UserName,
-                    UserEmail = user.Email,
-                    PhoneNumber = user.PhoneNumber,
-                    Skills = tech.Skills,
-                    Enabled = tech.Enabled,
-                    UserRole = user.UserRole
-                }
-            ).ToListAsync();
+            var users = await _context.Users
+                .Where(u => u.UserRole == "Technician")
+                .ToListAsync();
 
-            return View(userTechsVM);
+            var usersTechsVM = new List<UserTechnicianViewModel>();
+
+            foreach (var user in users) 
+            {
+                var technician = await FindTechnician(user.Id);
+
+                if (technician != null) 
+                {
+                    usersTechsVM.Add(new UserTechnicianViewModel
+                    {
+                        Id = technician.Id,
+                        SelectedUserId = user.Id,
+                        FirstName = user.FirstName,
+                        Middlename = user.MiddleName,
+                        LastName = user.LastName,
+                        UserName = user.UserName,
+                        UserEmail = user.Email,
+                        PhoneNumber = user.PhoneNumber,
+                        Skills = technician.Skills,
+                        Enabled = technician.Enabled,
+                        UserRole = user.UserRole
+                    });
+                }
+            }
+            return View(usersTechsVM);
+        }
+
+        private async Task<Technician> FindTechnician(string userId)
+        {
+            var techs = await _context.Technician.FirstOrDefaultAsync(t => t.UserId == userId);
+
+            return techs!;
         }
 
         /*--------------------------------------------------------------------------
@@ -93,7 +108,6 @@ namespace ServiceOrderManager.Controllers
         {
             var tecnicianModel = new Technician()
             {
-                Id = viewModel.Id,
                 Skills = viewModel.Skills,
                 Enabled = viewModel.Enabled,
                 UserId = viewModel.SelectedUserId
@@ -128,5 +142,94 @@ namespace ServiceOrderManager.Controllers
 
             model.AvailableUsers = new SelectList(eligibleUsers, "Id", "FullName");
         }
+
+        /*------------------------------------------------------------------------------------------------------
+         * Executa a apresentacao dos dados de User e Technician pelo users.Id
+         -----------------------------------------------------------------------------------------------------*/
+        [HttpGet]
+        public async Task<IActionResult> DetailTechnician(int id)
+        {
+            // Quando faco esta leitura, automaticamente carrego o ojjeto SystemUser 
+            // relacionado a este Technician
+            var technician = await _context.Technician
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+
+            if (technician == null)
+                return NotFound();
+
+            //Console.WriteLine(""technician.User.FirstName);
+
+            var usersTechsVM = new UserTechnicianViewModel();
+
+            usersTechsVM.Id = technician.Id;
+            usersTechsVM.SelectedUserId = technician.UserId;
+            usersTechsVM.FirstName = technician.User.FirstName;
+            usersTechsVM.Middlename = technician.User.MiddleName;
+            usersTechsVM.LastName = technician.User.LastName;
+            usersTechsVM.UserName = technician.User.UserName;
+            usersTechsVM.UserEmail = technician.User.Email;
+            usersTechsVM.PhoneNumber = technician.User.PhoneNumber;
+            usersTechsVM.Skills = technician.Skills;
+            usersTechsVM.Enabled = technician.Enabled;
+            usersTechsVM.UserRole = technician.User.UserRole;
+            //
+            
+            return View(usersTechsVM);
+        }
+        /*----------------------------------------------------------------------------------------------------------
+         * 
+         ---------------------------------------------------------------------------------------------------------*/ 
+        [HttpGet]
+        public async Task<IActionResult> EditTechnician(int id)
+        {
+            // Quando faco esta leitura, automaticamente carrego o ojjeto SystemUser 
+            // relacionado a este Technician
+            var technician = await _context.Technician
+                .Include(t => t.User)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+
+            if (technician == null)
+                return NotFound();
+
+            //Console.WriteLine(""technician.User.FirstName);
+
+            var usersTechsVM = new UserTechnicianViewModel();
+
+            usersTechsVM.Id = technician.Id;
+            usersTechsVM.SelectedUserId = technician.UserId;
+            usersTechsVM.FirstName = technician.User.FirstName;
+            usersTechsVM.Middlename = technician.User.MiddleName;
+            usersTechsVM.LastName = technician.User.LastName;
+            usersTechsVM.UserName = technician.User.UserName;
+            usersTechsVM.UserEmail = technician.User.Email;
+            usersTechsVM.PhoneNumber = technician.User.PhoneNumber;
+            usersTechsVM.Skills = technician.Skills;
+            usersTechsVM.Enabled = technician.Enabled;
+            usersTechsVM.UserRole = technician.User.UserRole;
+            //
+
+            return View(usersTechsVM);
+        }
+
+        /*-----------------------------------------------------------------------------------------
+         * Salva as alteracoes no banco de dados 
+         ----------------------------------------------------------------------------------------*/ 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTechnician(UserTechnicianViewModel model)
+        {
+
+
+
+            //_context.Update(Technician);
+            //await _context.SaveChangesAsync();
+
+            //TempData["SuccessMessage"] = "Technician inserted in database!";
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

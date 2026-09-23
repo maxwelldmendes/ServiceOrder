@@ -23,7 +23,7 @@ namespace ServiceOrderManager.Data.Configuration
                 .HasDefaultValue(true);
 
             builder.HasOne(t => t.User)
-                .WithOne(u => u.Technician)
+                .WithOne(su => su.Technician)
                 .HasForeignKey<Technician>(t => t.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);

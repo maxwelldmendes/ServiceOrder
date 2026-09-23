@@ -5,18 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\controllers\\techniciancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:controllers\\techniciancontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\views\\technician\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:views\\technician\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:controllers\\clientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|c:\\projetos\\projetoscsharp\\serviceorder\\views\\technician\\createtechnician.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{57AB1066-A84D-2E9B-45D1-52213A72AFCE}|ServiceOrderManager.csproj|solutionrelative:views\\technician\\createtechnician.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,47 +14,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Technician\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Technician\\Index.cshtml",
-              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Technician\\Index.cshtml",
-              "RelativeToolTip": "Views\\Technician\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-09-22T01:50:28.093Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ClientController.cs",
-              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Controllers\\ClientController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ClientController.cs",
-              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Controllers\\ClientController.cs",
-              "RelativeToolTip": "Controllers\\ClientController.cs",
-              "ViewState": "AgIAADgAAAAAAAAAAAAIwFEAAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T01:45:12.097Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "CreateTechnician.cshtml",
-              "DocumentMoniker": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Technician\\CreateTechnician.cshtml",
-              "RelativeDocumentMoniker": "Views\\Technician\\CreateTechnician.cshtml",
-              "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Views\\Technician\\CreateTechnician.cshtml",
-              "RelativeToolTip": "Views\\Technician\\CreateTechnician.cshtml",
-              "ViewState": "AgIAABsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-09-22T01:35:08.389Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 0,
@@ -75,9 +24,9 @@
               "RelativeDocumentMoniker": "Controllers\\TechnicianController.cs",
               "ToolTip": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\Controllers\\TechnicianController.cs",
               "RelativeToolTip": "Controllers\\TechnicianController.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAwGkAAAAzAAAAAAAAAA==",
+              "ViewState": "AgIAAMUAAAAAAAAAAAAiwNkAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-22T01:33:36.183Z",
+              "WhenOpened": "2026-09-22T23:19:55.441Z",
               "EditorCaption": ""
             }
           ]

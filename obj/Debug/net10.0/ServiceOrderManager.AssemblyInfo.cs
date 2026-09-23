@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ServiceOrderManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e7dac21343189e587d613c7ca1b443295e9ac46")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+243663e6ac0ffd655e7cedf0d030de06a6eb6c69")]
 [assembly: System.Reflection.AssemblyProductAttribute("ServiceOrderManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ServiceOrderManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
