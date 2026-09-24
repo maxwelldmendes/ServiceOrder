@@ -38,86 +38,6 @@
           }
         }
       },
-      "EntityFrameworkCore.Diagrams/0.4.2": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore": "1.1.2",
-          "NETStandard.Library": "1.6.1",
-          "Newtonsoft.Json": "10.0.3"
-        },
-        "compile": {
-          "lib/netstandard1.6/EntityFrameworkCore.Diagrams.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.6/EntityFrameworkCore.Diagrams.dll": {
-            "related": ".xml"
-          }
-        },
-        "contentFiles": {
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/3rdpartylicenses.txt": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.012cf6a10129e2275d79.woff": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.570eb83859dc23dd0eec.woff2": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.a37b0c01c0baf1888ca8.ttf": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.e79bfd88537def476913.eot": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/favicon.ico": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/index.html": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/inline.764ea7e8f233c3a6809b.bundle.js": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/main.d0329d265059e3e55cc6.bundle.js": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/polyfills.0963b44a58b5526cfab7.bundle.js": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/styles.20f9545db506af88f79c.bundle.css": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/vendor.fa09c1316e94520ecd3d.bundle.js": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
-        }
-      },
       "Humanizer.Core/2.14.1": {
         "type": "package",
         "compile": {
@@ -874,15 +794,6 @@
           }
         }
       },
-      "Microsoft.NETCore.Platforms/1.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard1.0/_._": {}
-        },
-        "runtime": {
-          "lib/netstandard1.0/_._": {}
-        }
-      },
       "Microsoft.SqlServer.Server/1.0.0": {
         "type": "package",
         "compile": {
@@ -924,16 +835,10 @@
           "buildTransitive/Mono.TextTemplating.targets": {}
         }
       },
-      "NETStandard.Library/1.6.1": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0"
-        }
-      },
       "Newtonsoft.Json/13.0.4": {
         "type": "package",
         "compile": {
-          "lib/net6.0/Newtonsoft.Json.dll": {
+          "lib/net6.0/_._": {
             "related": ".xml"
           }
         },
@@ -1216,43 +1121,6 @@
         "lib/net8.0/Azure.Identity.xml",
         "lib/netstandard2.0/Azure.Identity.dll",
         "lib/netstandard2.0/Azure.Identity.xml"
-      ]
-    },
-    "EntityFrameworkCore.Diagrams/0.4.2": {
-      "sha512": "f6q45V85jnJmnIS5YfetlynNmiWiekZruQ/TnMY87GXlLuU0bVZGMSe65CpZaow35sGSzm2xjtJKYhfvrGiKYQ==",
-      "type": "package",
-      "path": "entityframeworkcore.diagrams/0.4.2",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "content/wwwroot/db-diagrams/3rdpartylicenses.txt",
-        "content/wwwroot/db-diagrams/MaterialIcons-Regular.012cf6a10129e2275d79.woff",
-        "content/wwwroot/db-diagrams/MaterialIcons-Regular.570eb83859dc23dd0eec.woff2",
-        "content/wwwroot/db-diagrams/MaterialIcons-Regular.a37b0c01c0baf1888ca8.ttf",
-        "content/wwwroot/db-diagrams/MaterialIcons-Regular.e79bfd88537def476913.eot",
-        "content/wwwroot/db-diagrams/favicon.ico",
-        "content/wwwroot/db-diagrams/index.html",
-        "content/wwwroot/db-diagrams/inline.764ea7e8f233c3a6809b.bundle.js",
-        "content/wwwroot/db-diagrams/main.d0329d265059e3e55cc6.bundle.js",
-        "content/wwwroot/db-diagrams/polyfills.0963b44a58b5526cfab7.bundle.js",
-        "content/wwwroot/db-diagrams/styles.20f9545db506af88f79c.bundle.css",
-        "content/wwwroot/db-diagrams/vendor.fa09c1316e94520ecd3d.bundle.js",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/3rdpartylicenses.txt",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.012cf6a10129e2275d79.woff",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.570eb83859dc23dd0eec.woff2",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.a37b0c01c0baf1888ca8.ttf",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/MaterialIcons-Regular.e79bfd88537def476913.eot",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/favicon.ico",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/index.html",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/inline.764ea7e8f233c3a6809b.bundle.js",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/main.d0329d265059e3e55cc6.bundle.js",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/polyfills.0963b44a58b5526cfab7.bundle.js",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/styles.20f9545db506af88f79c.bundle.css",
-        "contentFiles/any/netstandard1.6/wwwroot/db-diagrams/vendor.fa09c1316e94520ecd3d.bundle.js",
-        "entityframeworkcore.diagrams.0.4.2.nupkg.sha512",
-        "entityframeworkcore.diagrams.nuspec",
-        "lib/netstandard1.6/EntityFrameworkCore.Diagrams.dll",
-        "lib/netstandard1.6/EntityFrameworkCore.Diagrams.xml"
       ]
     },
     "Humanizer.Core/2.14.1": {
@@ -2822,21 +2690,6 @@
         "microsoft.identitymodel.tokens.nuspec"
       ]
     },
-    "Microsoft.NETCore.Platforms/1.1.0": {
-      "sha512": "kz0PEW2lhqygehI/d6XsPCQzD7ff7gUJaVGPVETX611eadGsA3A877GdSlU0LRVMCTH/+P3o2iDTak+S08V2+A==",
-      "type": "package",
-      "path": "microsoft.netcore.platforms/1.1.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "lib/netstandard1.0/_._",
-        "microsoft.netcore.platforms.1.1.0.nupkg.sha512",
-        "microsoft.netcore.platforms.nuspec",
-        "runtime.json"
-      ]
-    },
     "Microsoft.SqlServer.Server/1.0.0": {
       "sha512": "N4KeF3cpcm1PUHym1RmakkzfkEv3GRMyofVv40uXsQhCQeglr2OHNcUk2WOG51AKpGO8ynGpo9M/kFXSzghwug==",
       "type": "package",
@@ -2888,19 +2741,6 @@
         "mono.texttemplating.3.0.0.nupkg.sha512",
         "mono.texttemplating.nuspec",
         "readme.md"
-      ]
-    },
-    "NETStandard.Library/1.6.1": {
-      "sha512": "WcSp3+vP+yHNgS8EV5J7pZ9IRpeDuARBPN28by8zqff1wJQXm26PVU8L3/fYLBJVU7BtDyqNVWq2KlCVvSSR4A==",
-      "type": "package",
-      "path": "netstandard.library/1.6.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "ThirdPartyNotices.txt",
-        "dotnet_library_license.txt",
-        "netstandard.library.1.6.1.nupkg.sha512",
-        "netstandard.library.nuspec"
       ]
     },
     "Newtonsoft.Json/13.0.4": {
@@ -3291,7 +3131,6 @@
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "EntityFrameworkCore.Diagrams >= 0.4.2",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 10.0.12",
       "Microsoft.EntityFrameworkCore >= 10.0.12",
       "Microsoft.EntityFrameworkCore.Design >= 10.0.12",
@@ -3350,10 +3189,6 @@
         "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
-          "EntityFrameworkCore.Diagrams": {
-            "target": "Package",
-            "version": "[0.4.2, )"
-          },
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
             "target": "Package",
             "version": "[10.0.12, )"

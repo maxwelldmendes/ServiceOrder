@@ -18,5 +18,9 @@
 
         // Relacionamento: 1 Cliente possui muitas OS
         public ICollection<ServiceOrder> ServiceOrders { get; set; } = new List<ServiceOrder>();
+
+        // Relacionamento: 1 Cliente possui muitos Appointments
+        public ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+
     }
 }

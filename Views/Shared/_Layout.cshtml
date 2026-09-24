@@ -5,244 +5,284 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ServiceOrder</title>
-    <script type="importmap"></script>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - ServiceOrder</title>
+        <script type="importmap"></script>
 
-    <!-- Include flatpickr CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
-    
-    <link href="~/css/site.css" asp-append-version="true" rel="stylesheet"/>
-    <!--link href="~/ServiceOrder.styles.css" asp-append-version="true" rel="stylesheet"/-->
+        <!-- Include flatpickr CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
 
-    
-</head>
+        <link href="~/css/site.css" asp-append-version="true" rel="stylesheet"/>
+        <!--link href="~/ServiceOrder.styles.css" asp-append-version="true" rel="stylesheet"/-->
 
-<body class="
+        @*----------------------------------------------------------------------------------------------*@
+        @* Necessario para o calendario FULLClendar                                                     *@
+        @*----------------------------------------------------------------------------------------------*@
+        <!-- STANDARD JS -->
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/all/global.js"></script>
+
+        <!-- THEME JS -->
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/themes/monarch/global.js"></script>
+
+        <!-- STYLESHEETS -->
+        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/skeleton.css' rel='stylesheet' />
+        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/themes/monarch/theme.css' rel='stylesheet' />
+        <link href='https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/themes/monarch/palettes/purple.css' rel='stylesheet' />
+
+        <script>
+          document.addEventListener("DOMContentLoaded", function () {
+            var calendarEl = document.getElementById("calendar");
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+              initialView: "dayGridMonth",
+            });
+            calendar.render();
+          });
+        </script>
+
+    </head>
+
+    <body class="
         @(ViewData["IsLoginPage"] as bool? == true ? "login-layout" : "")
         @(ViewData["IsRegisterPage"] as bool? == true ? "register-layout" : "")">
-    <header>
-        <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom shadow-sm">
-            <div class="container-fluid">
+        <header>
+            <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom shadow-sm">
+                <div class="container-fluid">
 
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/LogoModern.png"
-                         class="img-fluid"
-                         style="max-width: 80px;"
-                         alt="Logo" />
-                </a>
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/LogoModern.png"
+                            class="img-fluid"
+                            style="max-width: 80px;"
+                            alt="Logo" />
+                    </a>
 
-                <div id="mainNavbar" class="collapse navbar-collapse">
-                    <ul class="navbar-nav me-auto">
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Home"
-                               asp-action="Index">
-                                Home
-                            </a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav">
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-                            var user = await UserManager.GetUserAsync(User);
-
-                            <li class="nav-item d-flex align-items-center me-md-3">
-                                <span class="navbar-text">
-                                    Olá,
-                                    <strong>
-                                        @(user?.FirstName ?? User.Identity?.Name)
-                                    </strong>!
-                                </span>
-                            </li>
+                    <div id="mainNavbar" class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto">
 
                             <li class="nav-item">
-                                <form asp-controller="Account"
-                                      asp-action="Logout"
-                                      method="post">
-                                    <button type="submit"
-                                            class="nav-link btn btn-link text-danger">
-                                        Sair
-                                    </button>
-                                </form>
+                                <a class="nav-link"
+                                    asp-controller="Home"
+                                    asp-action="Index">
+                                    Home
+                                </a>
                             </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
+                        </ul>
 
-    <div class="page-container">
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <aside class="sidebar bg-primary text-white p-3">
-                <!-- Codigo 1 -->
-                <!-- Cabeçalho do menu -->
-                <div class="sidebar-header d-flex align-items-center gap-2 mb-4">
-                    <i class="bi bi-bar-chart-fill fs-4"></i>
-                    <span class="fs-5 fw-bold">Service Order</span>
-                </div>
+                        <ul class="navbar-nav">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                var user = await UserManager.GetUserAsync(User);
 
-                <nav class="nav flex-column">
-                <!-- Dashboard -->
-                <a asp-controller="Home"
-                   asp-action="Index"
-                   class="sidebar-link">
-                    <i class="bi bi-speedometer2 me-2"></i>
-                    Dashboard
-                </a>
+                                <li class="nav-item d-flex align-items-center me-md-3">
+                                    <span class="navbar-text">
+                                        Olá,
+                                        <strong>
+                                            @(user?.FirstName ?? User.Identity?.Name)
+                                        </strong>!
+                                    </span>
+                                </li>
 
-                <!-- Usuários -->
-                @if (User.IsInRole("Admin"))
-                {
-                    <button class="sidebar-toggle collapsed"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#usersMenu"
-                            aria-expanded="false"
-                            aria-controls="usersMenu">
-
-                        <span>
-                            <i class="bi bi-people me-2"></i>
-                            Users
-                        </span>
-
-                        <i class="bi bi-chevron-down"></i>
-                    </button>
-
-                    <div id="usersMenu" class="collapse">
-                        <div class="submenu">
-                            <a asp-controller="Account"
-                               asp-action="Register"
-                               class="sidebar-link">
-                                <i class="bi bi-person-vcard me-2 "></i>
-                                Create a New User
-                            </a>
-                        </div>
-                    </div>
-                }
-
-                <!-- Listas -->
-                <button class="sidebar-toggle collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#listsMenu"
-                        aria-expanded="false"
-                        aria-controls="listsMenu">
-
-                    <span>
-                        <i class="bi bi-list-ul me-2"></i>
-                        Listas
-                    </span>
-
-                    <i class="bi bi-chevron-down"></i>
-                </button>
-
-                <div id="listsMenu" class="collapse">
-                    <div class="submenu">
-
-                        <a asp-controller="Client"
-                           asp-action="Index"
-                           class="sidebar-link">
-                            <i class="bi bi-person-lines-fill me-2"></i>
-                            Clients
-                        </a>
-
-                    </div>
-                </div>
-
-                <div id="listsMenu" class="collapse">
-                    <div class="submenu">
-
-                        <a asp-controller="Technician"
-                           asp-action="Index"
-                           class="sidebar-link">
-                            <i class="bi bi-person-lines-fill me-2"></i>
-                            Technicians
-                        </a>
-
-                    </div>
-                </div>
-
-                <!-- Vendas e pagamentos -->
-                <button class="sidebar-toggle collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#salesMenu"
-                        aria-expanded="false"
-                        aria-controls="salesMenu">
-
-                    <span>
-                        <i class="bi bi-credit-card me-2"></i>
-                        Vendas e pagamentos
-                    </span>
-
-                    <i class="bi bi-chevron-down"></i>
-                </button>
-
-                <div id="salesMenu" class="collapse">
-                    <div class="submenu">
-
-                        <a asp-controller="Estimate"
-                           asp-action="Index"
-                           class="sidebar-link">
-                            <i class="bi bi-file-earmark-text me-2"></i>
-                            Orçamentos
-                        </a>
-
-                        <a asp-controller="Invoice"
-                           asp-action="Index"
-                           class="sidebar-link">
-                            <i class="bi bi-receipt me-2"></i>
-                            Faturas
-                        </a>
-
-                        <a asp-controller="Customer"
-                           asp-action="Index"
-                           class="sidebar-link">
-                            <i class="bi bi-person-badge me-2"></i>
-                            Clientes
-                        </a>
-
+                                <li class="nav-item">
+                                    <form asp-controller="Account"
+                                        asp-action="Logout"
+                                        method="post">
+                                        <button type="submit"
+                                            class="nav-link btn btn-link text-danger">
+                                            Sair
+                                        </button>
+                                    </form>
+                                </li>
+                            }
+                        </ul>
                     </div>
                 </div>
             </nav>
-            </aside>
-        }
+        </header>
 
-        <div class="content-wrapper flex-grow-1 work-layout">
-            <main role="main">
-                @RenderBody()
-            </main>
+        <div class="page-container">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <aside class="sidebar bg-primary text-white p-3">
+                    @*------- Titulo na Barra Lateral -------*@
+                    <div class="sidebar-header d-flex align-items-center gap-2 mb-4">
+                        <i class="bi bi-bar-chart-fill fs-4"></i>
+                        <span class="fs-5 fw-bold">Service Order</span>
+                    </div>
+
+                    
+                    <nav class="nav flex-column">
+                         @*------- Dashboard ----------*@
+                         <a class="sidebar-toggle sidebar-link btn btn-light shadow" 
+                               asp-controller="Home" 
+                               asp-action="Index" 
+                               Role="button">
+                               <i class="bi bi-speedometer2 me-2"></i>
+                                Dashboard
+                         </a>
+                       
+                        @*---------- Users ---------------*@
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <button class="sidebar-toggle collapsed btn btn-light shadow"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#usersMenu"
+                                aria-expanded="true"
+                                aria-controls="usersMenu">
+                                <span>
+                                    <i class="bi bi-people me-2"></i>
+                                    Users
+                                </span>
+                                <i class="bi bi-chevron-down ms-1"></i>
+                            </button>
+                            @**@
+                            <div id="usersMenu" class="collapse">
+                                <div class="submenu">
+                                    <a asp-controller="Account"
+                                        asp-action="Register"
+                                        class="sidebar-link">
+                                        <i class="bi bi-person-vcard me-2 "></i>
+                                        Create a New User
+                                    </a>
+                                </div>
+                            </div>
+                        }
+
+                        @*---------- Atendimentos ---------------*@
+                            <button class="sidebar-toggle collapsed btn btn-light shadow"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#servicesMenu"
+                                aria-expanded="true"
+                                aria-controls="servicesMenu">
+                                <span>
+                                    <i class="bi bi-tools me-2"></i>
+                                    Services
+                                </span>
+                                <i class="bi bi-chevron-down ms-1"></i>
+                            </button>
+                             @**@
+                            <div id="servicesMenu" class="collapse">
+                                <div class="submenu">
+                                    <a asp-controller="Appointments"
+                                        asp-action="Index"
+                                        class="sidebar-link">
+                                        <i class="bi bi-calendar-event-fill me-2"></i>
+                                        Appointments
+                                    </a>
+                                </div>
+                            </div>
+                        
+                        @*-------- Listas ---------*@
+                        <button class="sidebar-toggle collapsed btn btn-light shadow"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#listsMenu"
+                            aria-expanded="false"
+                            aria-controls="listsMenu">
+                            <span>
+                                <i class="bi bi-list-ul me-2"></i>
+                                Listas
+                            </span>
+                            <i class="bi bi-chevron-down ms-1"></i>
+                        </button>
+
+                        <div id="listsMenu" class="collapse">
+                            <div class="submenu">
+
+                                <a asp-controller="Client"
+                                    asp-action="Index"
+                                    class="sidebar-link">
+                                    <i class="bi bi-person-lines-fill me-2"></i>
+                                    Clients
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <div id="listsMenu" class="collapse">
+                            <div class="submenu">
+
+                                <a asp-controller="Technician"
+                                    asp-action="Index"
+                                    class="sidebar-link">
+                                    <i class="bi bi-person-lines-fill me-2"></i>
+                                    Technicians
+                                </a>
+
+                            </div>
+                        </div>
+
+                        <!-- Vendas e pagamentos -->
+                        <button class="sidebar-toggle collapsed btn btn-light shadow"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#salesMenu"
+                            aria-expanded="false"
+                            aria-controls="salesMenu">
+
+                            <span>
+                                <i class="bi bi-credit-card me-2"></i>
+                                Vendas e pagamentos
+                            </span>
+
+                            <i class="bi bi-chevron-down ms-1"></i>
+                        </button>
+
+                        <div id="salesMenu" class="collapse">
+                            <div class="submenu">
+
+                                <a asp-controller="Estimate"
+                                    asp-action="Index"
+                                    class="sidebar-link">
+                                    <i class="bi bi-file-earmark-text me-2"></i>
+                                    Orçamentos
+                                </a>
+
+                                <a asp-controller="Invoice"
+                                    asp-action="Index"
+                                    class="sidebar-link">
+                                    <i class="bi bi-receipt me-2"></i>
+                                    Faturas
+                                </a>
+
+                                <a asp-controller="Customer"
+                                    asp-action="Index"
+                                    class="sidebar-link">
+                                    <i class="bi bi-person-badge me-2"></i>
+                                    Clientes
+                                </a>
+
+                            </div>
+                        </div>
+                    </nav>
+                </aside>
+            }
+
+            <div class="content-wrapper flex-grow-1 work-layout">
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
         </div>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - ServiceOrder -
-            <a asp-controller="Home" asp-action="Privacy">
-                Privacy
-            </a>
-        </div>
-    </footer>
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2026 - ServiceOrder -
+                <a asp-controller="Home" asp-action="Privacy">
+                    Privacy
+                </a>
+            </div>
+        </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" crossorigin="anonymous"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+            </body>
 
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-            crossorigin="anonymous"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
-
-</html>
+        </html>

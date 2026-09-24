@@ -104,6 +104,7 @@ namespace ServiceOrderManager.Controllers
 
         // POST: Technician/Create
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateTechnician(UserTechnicianViewModel viewModel)
         {
             var tecnicianModel = new Technician()
@@ -165,7 +166,7 @@ namespace ServiceOrderManager.Controllers
 
             usersTechsVM.Id = technician.Id;
             usersTechsVM.SelectedUserId = technician.UserId;
-            usersTechsVM.FirstName = technician.User.FirstName;
+            usersTechsVM.FirstName = technician.User!.FirstName;
             usersTechsVM.Middlename = technician.User.MiddleName;
             usersTechsVM.LastName = technician.User.LastName;
             usersTechsVM.UserName = technician.User.UserName;
@@ -200,7 +201,7 @@ namespace ServiceOrderManager.Controllers
 
             usersTechsVM.Id = technician.Id;
             usersTechsVM.SelectedUserId = technician.UserId;
-            usersTechsVM.FirstName = technician.User.FirstName;
+            usersTechsVM.FirstName = technician.User!.FirstName;
             usersTechsVM.Middlename = technician.User.MiddleName;
             usersTechsVM.LastName = technician.User.LastName;
             usersTechsVM.UserName = technician.User.UserName;
@@ -221,15 +222,40 @@ namespace ServiceOrderManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditTechnician(UserTechnicianViewModel model)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
+            var techs = new Technician()
+            {
+                Id = model.Id,
+                UserId = model.SelectedUserId,
+                Skills = model.Skills,
+                Enabled = model.Enabled
+            };
 
+            _context.Update(techs);
+            await _context.SaveChangesAsync();
 
-            //_context.Update(Technician);
-            //await _context.SaveChangesAsync();
-
-            //TempData["SuccessMessage"] = "Technician inserted in database!";
+            TempData["SuccessMessage"] = "Technician inserted in database!";
             return RedirectToAction(nameof(Index));
         }
 
+        /*******************************************************************************************
+         * Delete Technician
+         -----------------------------------------------------------------------------------------*/
+        [HttpGet]
+        public async Task<IActionResult> DeleteTechnician(int id)
+        {
+            var technician = await _context.Technician.FindAsync(id);
+         
+            if (technician == null)
+                return NotFound();
+
+            _context.Remove(technician);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Technician removed in database!";
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

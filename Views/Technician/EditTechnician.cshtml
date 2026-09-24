@@ -26,42 +26,42 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label asp-for="Id" class="form-label"></label>
-                        <input asp-for="Id" class="form-content form-control" disabled/>
+                        <input asp-for="Id" class="form-content form-control" readonly />
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="SelectedUserId" class="form-label"></label>
-                        <input asp-for="SelectedUserId" class="form-control" disabled/>
+                        <input asp-for="SelectedUserId" class="form-control" readonly />
                         <span asp-validation-for="SelectedUserId" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="FirstName" class="form-label"></label>
-                        <input asp-for="FirstName" class="form-control" disabled/>
+                        <input asp-for="FirstName" class="form-control" readonly />
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="Middlename" class="form-label"></label>
-                        <input asp-for="Middlename" class="form-control" disabled />
+                        <input asp-for="Middlename" class="form-control" readonly />
                         <span asp-validation-for="Middlename" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="LastName" class="form-label"></label>
-                        <input asp-for="LastName" class="form-control" disabled />
+                        <input asp-for="LastName" class="form-control" readonly />
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="UserName" class="form-label"></label>
-                        <input asp-for="UserName" class="form-control" disabled />
+                        <input asp-for="UserName" class="form-control" readonly />
                         <span asp-validation-for="UserName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="UserEmail" class="form-label"></label>
-                        <input asp-for="UserEmail" class="form-control" disabled />
+                        <input asp-for="UserEmail" class="form-control" readonly />
                         <span asp-validation-for="UserEmail" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="PhoneNumber" class="form-label"></label>
-                        <input asp-for="PhoneNumber" class="form-control" disabled />
+                        <input asp-for="PhoneNumber" class="form-control" readonly />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                     <div class="col-md-12">
@@ -84,7 +84,7 @@
                 <div class="row mb-4 mt-3">
                     <div class="col-md-12">
                         <div class="form-check form-switch card p-3 shadow-sm d-flex align-items-center flex-row justify-content-start gap-3">
-                            <input class="form-check-input ms-0 mt-0" asp-for="Enabled" type="checkbox" checked>
+                            <input class="form-check-input ms-0 mt-0" asp-for="Enabled" type="checkbox" >
                             <label class="form-check-label fw-bold" asp-for="Enabled">
                                 Is this Technician ACTIVE?
                             </label>
