@@ -1,0 +1,90 @@
+﻿@model IEnumerable<ServiceOrderManager.Models.ViewModels.UserViewModel>
+@{
+    ViewData["Title"] = "User Management";
+}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h1 mb-0 text-gray-800">Users</h1>
+            <p class="text-muted small mb-0">Management and listing of registered users</p>
+        </div>
+        <a asp-action="Register" class="btn btn-primary shadow-sm">
+            <i class="bi bi-person-fill-add me-1"></i> New User
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.Id)</th>
+                        <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.FirstName)</th>
+                        <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.LastName)</th>
+                        <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.UserRole)</th>
+                        <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.UserName)</th>
+                        <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.Email)</th>
+                        <th scope="col" class="ps-3">@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+                        <th scope="col" class="text-end pe-3">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                There is not a Users in the database.
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold ps-3">@item.Id</td>
+                                
+                                <td class="ps-3 ">@item.FirstName</td>
+                                <td class="ps-3 ">@item.LastName</td>
+                                <td class="ps-3 fw-semibold">@item.UserRole</td>
+                                <td class="ps-3 fw-semibold">@item.UserName</td>
+                                <td class="ps-3 fw-semibold">@item.Email</td>
+                                <td class="ps-3 fw-semibold">@item.PhoneNumber</td>
+                                <td class="text-end pe-3">
+                                    <div class="btn-group btn-group-sm" role="group" aria-label="Actions">
+                                        <a asp-action="DetailClient"
+                                            asp-route-id="@item.Id"
+                                            class="btn btn-sm btn-info">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+
+                                        <a asp-action="EditClient"
+                                            asp-route-id="@item.Id"
+                                            class="btn btn-sm btn-warning">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+
+                                        <a asp-action="DeleteClient"
+                                            asp-route-id="@item.Id"
+                                            class="btn btn-sm btn-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

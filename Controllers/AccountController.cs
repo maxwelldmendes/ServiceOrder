@@ -4,73 +4,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ServiceOrderManager.Models;
 using ServiceOrderManager.Models.ViewModels;
+using ServiceOrderManager.Repositories;
 
 
 namespace ServiceOrderManager.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IRepository<SystemUser> _repository;
         private readonly SignInManager<SystemUser> _signInManager;
         private readonly UserManager<SystemUser> _userManager;
-
-        // GET: Account/Register
-        [HttpGet]
-        [Authorize(Roles = "Admin")] // Bloqueia o acesso para quem não é Admin
-        public IActionResult Register()
-        {
-            // Carrega uma lista estática de perfis para o Select da View
-            ViewBag.Roles = new SelectList(new[] { "Admin", "Manager", "Technician", "User" });
-            return View();
-        }
-
-        // POST: Account/Register
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                // Instancia o SystemUser com os novos campos customizados
-                var user = new SystemUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    FirstName = model.FirstName,
-                    MiddleName = model.MiddleName,
-                    LastName = model.LastName,
-                    Enabled = true,
-                    UserRole = model.UserRole // Guarda a string do perfil no seu campo customizado
-                };
-
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
-                {
-                    // Opcional: Se você usa a infraestrutura de Roles do Identity, 
-                    // vincula o usuário à Role oficial também:
-                    // await _userManager.AddToRoleAsync(user, model.UserRole);
-
-                    TempData["SuccessMessage"] = "Usuário registrado com sucesso!";
-                    return RedirectToAction("Index", "Home");
-                }
-
-                // Adiciona os erros retornados pelo Identity (ex: senha fraca, e-mail já existe)
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-            }
-
-            ViewBag.Roles = new SelectList(new[] { "Admin", "Manager", "Technician", "User",  }, model.UserRole);
-            return View(model);
-        }
-
+       
         // O ASP.NET Core injeta automaticamente os serviços do Identity aqui
-        public AccountController(SignInManager<SystemUser> signInManager, UserManager<SystemUser> userManager)
+        public AccountController(IRepository<SystemUser> repository,
+                                 UserManager<SystemUser> userManager,
+                                 SignInManager<SystemUser> signInManager)
         {
-            _signInManager = signInManager;
+            _repository = repository;
             _userManager = userManager;
+            _signInManager = signInManager;  
         }
 
         // GET: Account/Login
@@ -123,16 +75,95 @@ namespace ServiceOrderManager.Controllers
             return RedirectToAction("Index", "Home");
         }
 
-
-
-
-
-
-
-
-        public IActionResult Index()
+        // GET: Account/Index
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
+            var entities = await _repository.GetAllAsync();
+
+            var viewModels = entities.Select(x => new UserViewModel()
+            {
+                Id = x.Id,
+                FirstName = x.FirstName,
+                MiddleName = x.MiddleName,
+                LastName = x.LastName,
+                UserRole = x.UserRole,
+                UserName = x.UserName == null ? string.Empty : x.UserName,
+                Email = x.Email == null ? string.Empty : x.Email,
+                PhoneNumber = x.PhoneNumber == null ? string.Empty : x.PhoneNumber,
+                Enabled = x.Enabled
+            });
+
+            return View(viewModels);
+        }
+
+        // GET: Account/Register
+        [HttpGet]
+        [Authorize(Roles = "Admin")] // Bloqueia o acesso para quem não é Admin
+        public IActionResult Register()
+        {
+            // Carrega uma lista estática de perfis para o Select da View
+            ViewBag.Roles = new SelectList(new[] { "Admin", "Manager", "Technician", "User" });
             return View();
         }
+
+        // POST: Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // Instancia o SystemUser com os novos campos customizados
+                var user = new SystemUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    MiddleName = model.MiddleName,
+                    LastName = model.LastName,
+                    Enabled = true,
+                    UserRole = model.UserRole // Guarda a string do perfil no seu campo customizado
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    // Opcional: Se você usa a infraestrutura de Roles do Identity, 
+                    // vincula o usuário à Role oficial também:
+                    // await _userManager.AddToRoleAsync(user, model.UserRole);
+
+                    TempData["SuccessMessage"] = "Usuário registrado com sucesso!";
+                    return RedirectToAction("Index", "Account");
+                }
+
+                // Adiciona os erros retornados pelo Identity (ex: senha fraca, e-mail já existe)
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
+
+            ViewBag.Roles = new SelectList(new[] { "Admin", "Manager", "Technician", "User", }, model.UserRole);
+            return View(model);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

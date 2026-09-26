@@ -57,11 +57,11 @@
                             <button type="button"
                                     class="btn btn-success"
                                     id="btnNewClient"
-                                    title="Cadastrar novo cliente"
-                                    onclick="window.location.href='@Url.Action("CreateClient", "Client")'">
+                                    title="Cadastrar novo cliente">
+
                        
                                 <i class="bi bi-person-plus"></i>
-                                Novo
+                                New
                             </button>
                         </div>
 
@@ -122,6 +122,60 @@
         </div>
     </div>
 </div>
+@*---------------------- Fim do modal appointmentModal -------------------- *@
+
+@*----------------------------------------------------------------------------------------------------------------
+                                         Inicio do moda de Novo Cliente
+----------------------------------------------------------------------------------------------------------------*@
+<!-- Modal de Novo Cliente -->
+<div class="modal fade" id="novoClienteModal" tabindex="-1"
+     aria-labelledby="novoClienteModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="novoClienteModalLabel">
+                    Novo Cliente
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar">
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+
+                Conteúdo do modal aqui...
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*-------------------Fim do modal novo cliente ------------------------*@
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const botaoAbrir = document.getElementById('btnNewClient');
+    const modalElement = document.getElementById('novoClienteModal');
+
+    if (!botaoAbrir || !modalElement) {
+        console.error('Botão ou modal não encontrado.');
+        return;
+    }
+
+    const modalNovoCliente = new bootstrap.Modal(modalElement);
+
+    botaoAbrir.addEventListener('click', function () {
+        modalNovoCliente.show();
+    });
+});
+
+</script>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -138,10 +192,11 @@
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
-            themeSystem: 'standard',
+            themeSystem: 'bootstrap5',
             selectable: true,
+
             events: function(fetchInfo, successCallback, failureCallback) {
                 var userId = filterDropdown ? filterDropdown.value : '';  // Pega o ID do profissional selecionado no topo
 
@@ -161,6 +216,7 @@
                     failureCallback(error);
                 });
             },
+
             select: function(info) {
                 document.getElementById('appointmentForm').reset();
                 document.getElementById('txtId').value = "0";
@@ -231,6 +287,7 @@
         });
 
         calendar.render();
+
         // ESCUTA O FILTRO: Quando mudar o profissional no topo, força o calendário a recarregar
         if (filterDropdown) {
             filterDropdown.addEventListener('change', function () {

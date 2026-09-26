@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ServiceOrderManager.Data;
 using ServiceOrderManager.Data.Services;
 using ServiceOrderManager.Models;
+using ServiceOrderManager.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.ExpireTimeSpan = TimeSpan.FromDays(7); // Tempo de vida do cookie
 });
 
+builder.Services.AddScoped<IRepository<SystemUser>, SystemUserRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

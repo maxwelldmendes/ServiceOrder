@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../ServiceOrder.Tests/ServiceOrder.Tests.csproj" Id="423d9d07-3e70-4df8-abf2-3c1883ebe97d" />
   <Project Path="ServiceOrderManager.csproj" />
 </Solution>
