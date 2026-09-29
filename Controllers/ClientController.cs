@@ -1,21 +1,30 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ServiceOrderManager.Data; // Ajuste para o namespace do seu DbContext
+using ServiceOrderManager.Constants;
 using ServiceOrderManager.Mappings;
 using ServiceOrderManager.Models;
 using ServiceOrderManager.Models.ViewModels;
+using ServiceOrderManager.Repositories;
 
 namespace ServiceOrderManager.Controllers
 {
     [Authorize]
     public class ClientController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IRepository<Client> _repository;
+        private readonly SignInManager<SystemUser> _signInManager;
+        private readonly UserManager<SystemUser> _userManager;
 
-        public ClientController(AppDbContext context)
+        // O ASP.NET Core injeta automaticamente os serviços do Identity aqui
+        public ClientController(IRepository<Client> repository,
+                                 UserManager<SystemUser> userManager,
+                                 SignInManager<SystemUser> signInManager)
         {
-            _context = context;
+            _repository = repository;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         /*----------------------------------------------------------------
@@ -24,18 +33,9 @@ namespace ServiceOrderManager.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var clientModel = await _context.Client
-                                .Include(c => c.CompanyAddress)
-                                .Include(c => c.MailAddress)
-                                .ToListAsync();
+            IEnumerable<Client> clients = await _repository.GetAllAsync();
 
-            List<ClientViewModel> clientVM = new List<ClientViewModel>();
-
-            foreach (Client client in clientModel)
-            {
-                clientVM.Add(client.ToViewModel());
-            }
-            return View(clientVM);
+            return View(clients);
         }
 
         /*-----------------------------------------------------------------
@@ -54,33 +54,57 @@ namespace ServiceOrderManager.Controllers
             return View(model);
         }
 
+        /*---------------------------------------------------------------------
+         * Post: Clientes/Create
+         --------------------------------------------------------------------*/
+        [HttpPost]
+        public async Task<IActionResult> CreateClient(ClientViewModel clienteVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(clienteVm);
+            }
+
+            Client clientEntity = clienteVm.ToEntity();
+
+            await _repository.AddAsync(clientEntity);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        /*---------------------------------------------------------------------
+         * Post: Cliente/EditCliente/id
+         --------------------------------------------------------------------*/
+        [HttpGet]
+        public async Task<IActionResult> EditClient(int id)
+        {
+            Client client = await _repository.GetAsync(id);
+
+            if (client == null)
+            {
+                return View();
+            }
+
+            ClientViewModel clientVm = client.ToViewModel();
+
+            return View(clientVm);
+        }
+
         /*----------------------------------------------------------------------------------------
-         * Metodo que trata o click do botao Save Client da tela de criacao
+        * Metodo que trata o click do botao Save Client da tela de edicao
          ---------------------------------------------------------------------------------------*/
         // POST: Client/Save
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateClient(ClientViewModel viewModel)
+        public async Task<IActionResult> EditClient(ClientViewModel viewModel)
         {
-            // Valida se as propriedades obrigatórias dos endereços foram preenchidas
-            if (viewModel.CompanyAddress == null || viewModel.MailAddress == null)
-            {
-                ModelState.AddModelError(string.Empty, "Os dados de endereço comercial e residencial são obrigatórios.");
-            }
-
-            ModelState.Remove("CompanyAddress.Street2");
-            ModelState.Remove("MailAddress.Street2");
 
             if (ModelState.IsValid)
             {
                 // 2. Mapeia o objeto Cliente conectando as instâncias de endereço criadas acima
-                var client = new Client();
-                client = viewModel.ToModel();
+                var client = viewModel.ToEntity();
 
-                // 3. Salva no banco de dados. O EF Core cria automaticamente os endereços primeiro 
-                // e amarra os IDs gerados ao novo Cliente graças ao mapeamento de objetos.
-                _context.Add(client);
-                await _context.SaveChangesAsync();
+                await _repository.UpdateAsync(client);
 
                 TempData["SuccessMessage"] = "Client inserted in database!";
                 return RedirectToAction(nameof(Index));
@@ -94,131 +118,41 @@ namespace ServiceOrderManager.Controllers
          * Metodo que trata o click do botao Client Detail na tabela de clientes cadastrados 
          ------------------------------------------------------------------------------------------*/
         // GET: Client/Details/5
-        public async Task<IActionResult> DetailClient(int? id)
+        public async Task<IActionResult> DetailClient(int id)
         {
             if (id == null)
-                return NotFound();
-
-            var client = await _context.Client
-                .Include(c => c.CompanyAddress)
-                .Include(c => c.MailAddress)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (client == null)
-                return NotFound();
-
-            ClientViewModel clientVM = client.ToViewModel();
-
-            return View(clientVM);
-        }
-
-        /*-----------------------------------------------------------------
-         * Metodo para abrir a ClientViewodel ao clicar no botao New Client
-         ----------------------------------------------------------------*/
-        // GET: Clients/Create
-        [HttpGet]
-        public async Task<IActionResult> EditClient(int? id)
-        {
-            if (id == null)
-                return NotFound();
-
-            var client = await _context.Client
-                .Include(c => c.CompanyAddress)
-                .Include(c => c.MailAddress)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (client == null)
-                return NotFound();
-
-            ClientViewModel clientVM = client.ToViewModel();
-
-            return View(clientVM);
-        }
-
-        /*----------------------------------------------------------------------------------------
-         * Metodo que trata o click do botao Save Client da tela de edicao
-         ---------------------------------------------------------------------------------------*/
-        // POST: Client/Save
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditClient(ClientViewModel viewModel)
-        {
-            // Valida se as propriedades obrigatórias dos endereços foram preenchidas
-            if (viewModel.CompanyAddress == null || viewModel.MailAddress == null)
             {
-                ModelState.AddModelError(string.Empty, "Os dados de endereço comercial e residencial são obrigatórios.");
+                return NotFound();
             }
 
-            ModelState.Remove("CompanyAddress.Street2");
-            ModelState.Remove("MailAddress.Street2");
-
-            if (ModelState.IsValid)
-            {
-                // 2. Mapeia o objeto Cliente conectando as instâncias de endereço criadas acima
-                var client = new Client();
-                client = viewModel.ToModel();
-
-                // 3. Salva no banco de dados. O EF Core cria automaticamente os endereços primeiro 
-                // e amarra os IDs gerados ao novo Cliente graças ao mapeamento de objetos.
-                _context.Update(client);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Client inserted in database!";
-                return RedirectToAction(nameof(Index));
-            }
-
-            // Se o modelo for inválido, retorna a View com as validações disparadas
-            return View(viewModel);
-        }
-
-        /*--------------------------------------------------------------------
-         * Metodo para abrir a ClientViewodel ao clicar no botao Delete Client
-         -------------------------------------------------------------------*/
-        // GET: Clients/Delete
-        [HttpGet]
-        public async Task<IActionResult> DeleteClient(int? id)
-        {
-            if (id == null)
-                return NotFound();
-
-            var client = await _context.Client
-                .Include(c => c.CompanyAddress)
-                .Include(c => c.MailAddress)
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            if (client == null)
-                return NotFound();
+            Client client = await _repository.GetAsync(id); 
 
             ClientViewModel clientVM = client.ToViewModel();
 
             return View(clientVM);
         }
 
-        /*--------------------------------------------------------------------
-         * Metodo para tratar o click do botao Are you sure do Delete Client
-         -------------------------------------------------------------------*/
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteClientById(int? id)
+        [HttpDelete]
+        //[Authorize(Roles = "Admin,Manager")]
+        public async Task<IActionResult> DeleteClient(int id)
         {
-            if (id == null)
-                return NotFound();
-
-            var client = await _context.Client
-                .Include(c => c.CompanyAddress)
-                .Include(c => c.MailAddress)
-                .FirstOrDefaultAsync(c => c.Id == id);
+            var client = await _repository.GetAsync(id);
 
             if (client == null)
+            {
                 return NotFound();
+            }
 
-            // 3. Salva no banco de dados. O EF Core cria automaticamente os endereços primeiro 
-            // e amarra os IDs gerados ao novo Cliente graças ao mapeamento de objetos.
-            _context.Remove(client);
-            await _context.SaveChangesAsync();
+            //var userId = _userManager.GetUserId(User);
+            /*
+            if (User IsInRoll(Roles.Admin) == false && Client.UserId != userId)
+            {
+                return Forbid();
+            }
+            */
+            await _repository.DeleteAsync(id);
 
-            TempData["SuccessMessage"] = "Client inserted in database!";
-            return RedirectToAction(nameof(Index));
+            return Ok();
         }
     }
 }

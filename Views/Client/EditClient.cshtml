@@ -159,68 +159,54 @@
     </form>
 </div>
 
-
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        $(document).ready(function () {
             // Mapeamento dos inputs de Origem (Comercial) para Destino (Correspondência)
             const addressFields = [
-                { source: "CompanyAddress_Street1", target: "MailAddress_Street1" },
-                { source: "CompanyAddress_Street2", target: "MailAddress_Street2" },
-                { source: "CompanyAddress_City", target: "MailAddress_City" },
-                { source: "CompanyAddress_State", target: "MailAddress_State" },
-                { source: "CompanyAddress_ZipCode", target: "MailAddress_ZipCode" },
-                { source: "CompanyAddress_Country", target: "MailAddress_Country" }
+                { source: "#CompanyAddress_Street1", target: "#MailAddress_Street1" },
+                { source: "#CompanyAddress_Street2", target: "#MailAddress_Street2" },
+                { source: "#CompanyAddress_City", target: "#MailAddress_City" },
+                { source: "#CompanyAddress_State", target: "#MailAddress_State" },
+                { source: "#CompanyAddress_ZipCode", target: "#MailAddress_ZipCode" },
+                { source: "#CompanyAddress_Country", target: "#MailAddress_Country" }
             ];
 
-            const syncSwitch = document.getElementById("syncAddressSwitch");
+            const $syncSwitch = $("#syncAddressSwitch");
 
             function syncFields() {
-                if (syncSwitch.checked) {
-                    addressFields.forEach(field => {
-                        const sourceInput = document.getElementById(field.source);
-                        const targetInput = document.getElementById(field.target);
-                        
-                        if (sourceInput && targetInput) {
-                            // Copia o valor atual
-                            targetInput.value = sourceInput.value;
-                            // Desabilita visualmente o campo de destino
-                            targetInput.readOnly = true;
-                            targetInput.classList.add("bg-light");
-                        }
-                    });
-                } else {
-                    addressFields.forEach(field => {
-                        const targetInput = document.getElementById(field.target);
-                        if (targetInput) {
+                const isChecked = $syncSwitch.is(":checked");
+
+                addressFields.forEach(field => {
+                    const $sourceInput = $(field.source);
+                    const $targetInput = $(field.target);
+
+                    if ($sourceInput.length && $targetInput.length) {
+                        if (isChecked) {
+                            // Copia o valor atual, torna somente leitura e adiciona a classe do Bootstrap
+                            $targetInput.val($sourceInput.val());
+                            $targetInput.prop("readOnly", true).addClass("bg-light");
+                        } else {
                             // Libera o campo para edição manual novamente
-                            targetInput.readOnly = false;
-                            targetInput.classList.remove("bg-light");
+                            $targetInput.prop("readOnly", false).removeClass("bg-light");
                         }
-                    });
-                }
+                    }
+                });
             }
 
             // Ouvinte para quando o usuário ativar/desativar a chave
-            syncSwitch.addEventListener("change", syncFields);
+            $syncSwitch.on("change", syncFields);
 
             // Ouvinte para copiar em tempo real caso o usuário continue digitando no comercial com a chave ativa
             addressFields.forEach(field => {
-                const sourceInput = document.getElementById(field.source);
-                if (sourceInput) {
-                    sourceInput.addEventListener("input", function () {
-                        if (syncSwitch.checked) {
-                            const targetInput = document.getElementById(field.target);
-                            if (targetInput) {
-                                targetInput.value = sourceInput.value;
-                            }
-                        }
-                    });
-                }
+                $(field.source).on("input", function () {
+                    if ($syncSwitch.is(":checked")) {
+                        $(field.target).val($(this).val());
+                    }
+                });
             });
         });
     </script>
-}
 }

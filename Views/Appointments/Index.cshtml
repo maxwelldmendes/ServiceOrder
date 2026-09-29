@@ -156,6 +156,14 @@
     </div>
 </div>
 
+<script
+  src="https://code.jquery.com/jquery-4.0.0.slim.js"
+  integrity="sha256-M+GjhMBfXikM1izMplICCTscIj5hzPCp6uDzaypxtgg="
+  crossorigin="anonymous">
+</script>
+
+
+
 @*-------------------Fim do modal novo cliente ------------------------*@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -178,211 +186,229 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var calendarEl = document.getElementById('calendar');
-        var modalElement = document.getElementById('appointmentModal');
+    $(function () {
+        const calendarEl = $('#calendar')[0];
+        const modalElement = $('#appointmentModal')[0];
+        const modal = modalElement
+            ? new bootstrap.Modal(modalElement)
+            : null;
 
-        var modal = modalElement ? new bootstrap.Modal(modalElement) : null;
+        const $filterDropdown = $('#filterProfessional');
 
-        var filterDropdown = document.getElementById('filterProfessional');
-
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        const calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             contentHeight: 600,
+
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
             },
+
             themeSystem: 'bootstrap5',
             selectable: true,
 
-            events: function(fetchInfo, successCallback, failureCallback) {
-                var userId = filterDropdown ? filterDropdown.value : '';  // Pega o ID do profissional selecionado no topo
+            events: function (fetchInfo, successCallback, failureCallback) {
+                const userId = $filterDropdown.length
+                    ? $filterDropdown.val()
+                    : '';
 
-                // Monta a URL passando as datas do calendário e o filtro do usuário
-                var url = '/Appointments/GetCalendarEvents?' +
-                'start=' + fetchInfo.startStr +
-                '&end=' + fetchInfo.endStr +
-                '&assignedUserId=' + encodeURIComponent(userId);
-
-                fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    successCallback(data); // Passa os eventos filtrados para o FullCalendar desenhar
-                })
-                .catch(error => {
-                    console.error('Erro ao buscar eventos:', error);
-                    failureCallback(error);
+                $.ajax({
+                    url: '/Appointments/GetCalendarEvents',
+                    type: 'GET',
+                    data: {
+                        start: fetchInfo.startStr,
+                        end: fetchInfo.endStr,
+                        assignedUserId: userId
+                    },
+                    success: successCallback,
+                    error: function (xhr) {
+                        console.error('Erro ao buscar eventos:', xhr);
+                        failureCallback(xhr);
+                    }
                 });
             },
 
-            select: function(info) {
-                document.getElementById('appointmentForm').reset();
-                document.getElementById('txtId').value = "0";
+            select: function (info) {
+                $('#appointmentForm')[0].reset();
 
-                // Ajusta visual para criação
-                document.getElementById('appointmentModalLabel').innerText = "🧾 Novo Agendamento";
-                document.getElementById('statusBlock').classList.add('d-none');
-                document.getElementById('btnDelete').classList.add('d-none');
-                document.getElementById('btnSave').classList.remove('d-none');
+                $('#txtId').val('0');
+                $('#appointmentModalLabel').text('🧾 Novo Agendamento');
+
+                $('#statusBlock').addClass('d-none');
+                $('#btnDelete').addClass('d-none');
+                $('#btnSave').removeClass('d-none');
+
                 enableFormFields(true);
 
-                var startIso = info.startStr.includes("T") ? info.startStr.substring(0, 16) : info.startStr + "T08:00";
-                var endIso = info.endStr.includes("T") ? info.endStr.substring(0, 16) : info.startStr + "T09:00";
+                const startIso = info.startStr.includes('T')
+                    ? info.startStr.substring(0, 16)
+                    : info.startStr + 'T08:00';
 
-                document.getElementById('txtStartTime').value = startIso;
-                document.getElementById('txtEndTime').value = endIso;
+                const endIso = info.endStr.includes('T')
+                    ? info.endStr.substring(0, 16)
+                    : info.startStr + 'T09:00';
+
+                $('#txtStartTime').val(startIso);
+                $('#txtEndTime').val(endIso);
+
                 modal.show();
             },
 
-            // 2. CLIQUE EM UM AGENDAMENTO EXISTENTE (DETALHES / ALTERAÇÃO)
-            eventClick: function(info) {
-                var id = info.event.id;
+            eventClick: function (info) {
+                const id = info.event.id;
 
-                fetch('/Appointments/GetDetails/' + id)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Não foi possível carregar o agendamento.');
+                $.ajax({
+                    url: '/Appointments/GetDetails/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+
+                    success: function (data) {
+                        $('#txtId').val(data.id);
+                        $('#ddlClient').val(data.clientId);
+                        $('#txtTitle').val(data.title);
+                        $('#ddlProfessional').val(data.assignedUserId);
+                        $('#txtStartTime').val(data.startTime);
+                        $('#txtEndTime').val(data.endTime);
+                        $('#txtDescription').val(data.description);
+
+                        const status = Number(data.status);
+                        $('#ddlStatus').val(status);
+
+                        $('#appointmentModalLabel')
+                            .text('🔍 Detalhes do Agendamento');
+
+                        $('#statusBlock').removeClass('d-none');
+                        $('#btnDelete').removeClass('d-none');
+
+                        if (status === 2 || status === 3) {
+                            enableFormFields(false);
+                            $('#btnSave').addClass('d-none');
+                        } else {
+                            enableFormFields(true);
+                            $('#btnSave').removeClass('d-none');
+                        }
+
+                        modal.show();
+                    },
+
+                    error: function (xhr) {
+                        console.error(xhr);
+                        alert('Não foi possível carregar o agendamento.');
                     }
-
-                    return response.json();
-                })
-                .then(data => {
-                    document.getElementById('txtId').value = data.id;
-                    document.getElementById('ddlClient').value = data.clientId;
-
-                    document.getElementById('txtTitle').value = data.title;
-                    document.getElementById('ddlProfessional').value = data.assignedUserId;
-                    document.getElementById('txtStartTime').value = data.startTime;
-                    document.getElementById('txtEndTime').value = data.endTime;
-                    document.getElementById('txtDescription').value = data.description;
-
-                    var status = Number(data.status);
-
-                    document.getElementById('ddlStatus').value = status;
-
-                    // Ajusta visual para detalhes/edição
-                    document.getElementById('appointmentModalLabel').innerText =
-                    "🔍 Detalhes do Agendamento";
-
-                    document.getElementById('statusBlock').classList.remove('d-none');
-                    document.getElementById('btnDelete').classList.remove('d-none');
-
-                    if (status === 2 || status === 3) {
-                        enableFormFields(false);
-                        document.getElementById('btnSave').classList.add('d-none');
-                    } else {
-                        enableFormFields(true);
-                        document.getElementById('btnSave').classList.remove('d-none');
-                    }
-                    modal.show();
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert(error.message);
                 });
-
             }
         });
 
         calendar.render();
 
-        // ESCUTA O FILTRO: Quando mudar o profissional no topo, força o calendário a recarregar
-        if (filterDropdown) {
-            filterDropdown.addEventListener('change', function () {
-                calendar.refetchEvents();
-            });
-        }
+        // Filtro de profissional
+        $filterDropdown.on('change', function () {
+            calendar.refetchEvents();
+        });
 
         function enableFormFields(enable) {
-            var fields = [
-            'ddlClient',
-            'txtTitle',
-            'ddlProfessional',
-            'txtStartTime',
-            'txtEndTime',
-            'txtDescription'
+            const fields = [
+                '#ddlClient',
+                '#txtTitle',
+                '#ddlProfessional',
+                '#txtStartTime',
+                '#txtEndTime',
+                '#txtDescription'
             ];
 
-            fields.forEach(function(id) {
-                document.getElementById(id).disabled = !enable;
+            fields.forEach(function (selector) {
+                $(selector).prop('disabled', !enable);
             });
         }
 
-        // 3. EVENTO DE SUBMIT (SALVAR NOVO OU ALTERAR STATUS DE EXISTENTE)
-        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+        // Submit do formulário
+        $('#appointmentForm').on('submit', function (e) {
             e.preventDefault();
-            var id = document.getElementById('txtId').value;
 
-            // Se o ID for maior que 0, trata-se de uma atualização de Status
-            if (id !== "0") {
-                var formData = new FormData(this);
+            const form = this;
+            const id = $('#txtId').val();
+            const formData = new FormData(form);
+
+            let url;
+
+            if (id !== '0') {
+                url = '/Appointments/UpdateStatusOrDelete';
 
                 formData.append('actionType', 'update');
-                formData.append(
-                'status',
-                document.getElementById('ddlStatus').value
-                );
+                formData.append('status', $('#ddlStatus').val());
+            } else {
+                url = '/Appointments/Create';
+            }
 
-                fetch('/Appointments/UpdateStatusOrDelete', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(async response => {
-                    var data = await response.json();
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
 
-                    if (!response.ok) {
-                        throw new Error(
-                        data.message || 'Erro ao atualizar o agendamento.'
-                        );
-                    }
-
-                    return data;
-                })
-                .then(data => {
-                    //alert(data.message);
-
+                success: function (data) {
                     if (data.success) {
                         modal.hide();
                         calendar.refetchEvents();
+                    } else {
+                        alert(data.message || 'Não foi possível salvar.');
                     }
-                })
-                .catch(error => {
-                    console.error(error);
-                    alert(error.message);
-                });
+                },
 
-            } else {
-                // Criação convencional
-                var formData = new FormData(this);
-                fetch('/Appointments/Create', { method: 'POST', body: formData })
-                .then(res => res.json())
-                .then(data => {
-                    //alert(data.message);
-                    if (data.success) { modal.hide(); calendar.refetchEvents(); }
-                });
-            }
+                error: function (xhr) {
+                    console.error(xhr);
+
+                    const message =
+                        xhr.responseJSON?.message ||
+                        'Erro ao processar a operação.';
+
+                    alert(message);
+                }
+            });
         });
 
-        // 4. BOTÃO EXCLUIR
-        document.getElementById('btnDelete').addEventListener('click', function() {
-            if (confirm("Tem certeza que deseja excluir em definitivo este agendamento?")) {
-                var id = document.getElementById('txtId').value;
-                var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
-                var formData = new FormData();
-                formData.append('id', id);
-                formData.append('actionType', 'delete');
-                formData.append('__RequestVerificationToken', token);
-
-                fetch('/Appointments/UpdateStatusOrDelete', { method: 'POST', body: formData })
-                .then(res => res.json())
-                .then(data => {
-                    //alert(data.message);
-                    if (data.success) { modal.hide(); calendar.refetchEvents(); }
-                });
+        // Excluir agendamento
+        $('#btnDelete').on('click', function () {
+            if (!confirm(
+                'Tem certeza que deseja excluir em definitivo este agendamento?'
+            )) {
+                return;
             }
+
+            const id = $('#txtId').val();
+            const token = $('input[name="__RequestVerificationToken"]').val();
+
+            const formData = new FormData();
+            formData.append('id', id);
+            formData.append('actionType', 'delete');
+            formData.append('__RequestVerificationToken', token);
+
+            $.ajax({
+                url: '/Appointments/UpdateStatusOrDelete',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+
+                success: function (data) {
+                    if (data.success) {
+                        modal.hide();
+                        calendar.refetchEvents();
+                    } else {
+                        alert(data.message || 'Erro ao excluir.');
+                    }
+                },
+
+                error: function (xhr) {
+                    console.error(xhr);
+                    alert('Erro ao excluir o agendamento.');
+                }
+            });
         });
     });
-
 </script>
+
