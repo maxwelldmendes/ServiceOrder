@@ -3144,11 +3144,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\ServiceOrderManager.csproj",
+      "projectUniqueName": "C:\\Users\\maxwelldmendes\\OneDrive\\Projetos\\ProjetosCSharp\\ServiceOrder\\ServiceOrderManager.csproj",
       "projectName": "ServiceOrderManager",
-      "projectPath": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\ServiceOrderManager.csproj",
+      "projectPath": "C:\\Users\\maxwelldmendes\\OneDrive\\Projetos\\ProjetosCSharp\\ServiceOrder\\ServiceOrderManager.csproj",
       "packagesPath": "C:\\Users\\maxwelldmendes\\.nuget\\packages\\",
-      "outputPath": "C:\\Projetos\\ProjetosCSharp\\ServiceOrder\\obj\\",
+      "outputPath": "C:\\Users\\maxwelldmendes\\OneDrive\\Projetos\\ProjetosCSharp\\ServiceOrder\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

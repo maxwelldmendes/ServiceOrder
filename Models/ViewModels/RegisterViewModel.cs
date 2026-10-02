@@ -20,6 +20,11 @@ namespace ServiceOrderManager.Models
         [Display(Name = "E-mail (Nome de Usuário)")]
         public string Email { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "O Phone Number é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Insira um phone number válido.")]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "A senha é obrigatória.")]
         [StringLength(100, ErrorMessage = "A {0} deve ter pelo menos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]

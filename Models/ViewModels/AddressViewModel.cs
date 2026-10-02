@@ -12,8 +12,7 @@ namespace ServiceOrderManager.Models.ViewModels
         public string Street1 { get; set; } = string.Empty;
 
         [Display(Name = "Street 1")]
-        [StringLength(100, ErrorMessage = "Street 2 has a minimun lenght")]
-        public string Street2 { get; set; } = string.Empty;
+        public string? Street2 { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Enter a valid City.")]
         [StringLength(100, ErrorMessage = "City has a minimun lenght.")]
@@ -33,6 +32,6 @@ namespace ServiceOrderManager.Models.ViewModels
         [Required(ErrorMessage = "Enter a valid Country")]
         [StringLength(3, ErrorMessage = "Country has a minimun lenght.")]
         [Display(Name = "Country")]
-        public string Country { get; set; } = string.Empty;
+        public string Country { get; set; } = "USA";
     }
 }

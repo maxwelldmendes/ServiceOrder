@@ -1,4 +1,6 @@
-﻿namespace ServiceOrderManager.Repositories
+﻿using ServiceOrderManager.Models;
+
+namespace ServiceOrderManager.Repositories
 {
     public interface IRepository<T> where T: class
     {

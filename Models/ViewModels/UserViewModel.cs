@@ -24,6 +24,14 @@ namespace ServiceOrderManager.Models.ViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; } = string.Empty;
 
+        [Required(ErrorMessage = "The phone number is required!")]
+        [StringLength(100, MinimumLength = 10,
+            ErrorMessage = "c")]
+        [Display(Name = "Phone Number")]
+        [RegularExpression(@"^\(?\d{3}\)?\s?\d{3,3}-\d{4}$", 
+            ErrorMessage = "Formato de telefone inválido. Use (XXX) XXX-XXXX")]
+        public string PhoneNumber { get; set; } = string.Empty;
+
         [Required(ErrorMessage = "The user role is required!")]
         [StringLength(50,
             ErrorMessage = "The user role must be at maximun 50 characters!")]
@@ -45,13 +53,6 @@ namespace ServiceOrderManager.Models.ViewModels
         [EmailAddress(ErrorMessage = "Please, type a valid eMail!")]
         [Display(Name = "E-Mail")]
         public string Email { get; set; } = null!;
-
-        [Required(ErrorMessage = "The phone number is required!")]
-        [Phone(ErrorMessage = "Type a valid phone number!")]
-        [StringLength(20,
-            ErrorMessage = "The phone number must be at maximun 20 characters!")]
-        [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; } = null!;
 
         [Display(Name = "Enabled")]
         public bool Enabled { get; set; } = true;

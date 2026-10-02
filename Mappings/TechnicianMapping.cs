@@ -1,32 +1,45 @@
 ﻿using ServiceOrderManager.Models;
 using ServiceOrderManager.Models.ViewModels;
+using System.ComponentModel.DataAnnotations;
 
 namespace ServiceOrderManager.Mappings
 {
     public static class TechnicianMapping
     {
-        public static TechnicianViewModel ToViewModel(this Technician techs)
+        // Converte a Entidade do Banco para o FormViewModel (Edição)
+        public static TechnicianViewModel ToViewModel(this Technician technician)
         {
-            if (techs == null) return null!;
+            if (technician == null) return null!;
 
             return new TechnicianViewModel
             {
-                Id = techs.Id,
-                Skills = techs.Skills,
-
-                Enabled = techs.Enabled,
+                //Tabela Technician
+                Id = technician.Id,
+                Skills = technician.Skills,
+                Enabled = technician.Enabled,
+                UserId = technician.UserId,
+                //Tabela SystemUser
+                FirstName = technician.User.FirstName,
+                Middlename = technician.User.MiddleName,
+                LastName = technician.User.LastName,
+                UserName = technician.User.UserName,
+                UserEmail = technician.User.Email,
+                PhoneNumber = technician.User.PhoneNumber,
+                UserRole = technician.User.UserRole
             };
         }
 
-        public static Technician ToModel(this TechnicianViewModel TechsviewModel)
+        // Cria uma nova Entidade a partir do Formulário (POST Create)
+        public static Technician ToEntity(this TechnicianViewModel technicianViewModel)
         {
-            if (TechsviewModel == null) return null!;
+            if (technicianViewModel == null) return null!;
 
             return new Technician
             {
-                Id = TechsviewModel.Id,
-                Skills = TechsviewModel.Skills,
-                Enabled = TechsviewModel.Enabled,
+                Id = technicianViewModel.Id,
+                Skills = technicianViewModel.Skills,
+                Enabled = technicianViewModel.Enabled,
+                UserId = technicianViewModel.UserId
             };
         }
     }

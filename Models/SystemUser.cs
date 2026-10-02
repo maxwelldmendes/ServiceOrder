@@ -11,6 +11,6 @@ namespace ServiceOrderManager.Models
         public string UserRole { get; set; } = string.Empty;
 
         // Navegação 1:1
-        public Technician? Technician { get; set; }
+        public virtual Technician? Technician { get; set; }
     }
 }

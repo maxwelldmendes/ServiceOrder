@@ -42,6 +42,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddScoped<IRepository<SystemUser>, SystemUserRepository>();
 builder.Services.AddScoped<IRepository<Client>, ClientRepository>();
+builder.Services.AddScoped<ITechnicianRepository, TechnicianRepository>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

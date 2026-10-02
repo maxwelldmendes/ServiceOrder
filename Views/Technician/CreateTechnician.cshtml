@@ -1,4 +1,4 @@
-﻿@model ServiceOrderManager.Models.ViewModels.UserTechnicianViewModel
+﻿@model ServiceOrderManager.Models.ViewModels.TechnicianViewModel
 
 @{
     ViewData["Title"] = "New Technician";
@@ -29,40 +29,42 @@
             <div class="card-body">
         
                 <div class="mb-3">
-                    <label asp-for="SelectedUserId" class="form-label" id="techList">Technician selected</label>
+                    
+                    <label asp-for="UserId" class="form-label" id="techList">Technician selected</label>
 
-                    <select id="userSelect" class="form-select" asp-for="SelectedUserId" asp-items="Model.AvailableUsers" >
+                    <select id="userSelect" class="form-select" asp-for="UserId" asp-items="Model.AvailableUsers" >
                         <option value="">-- Selecione um Usuário --</option>
                     </select>
-                    <span asp-validation-for="SelectedUserId" class="text-danger"></span>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                    
                 </div>
                 <div class="mb-1">
                     <label asp-for="FirstName" class="form-label">First name</label>
-                    <input asp-for="FirstName" class="form-control" id="firstNameInput" readonly disabled/> 
+                    <input asp-for="FirstName" class="form-control" id="FirstName" readonly disabled/> 
                 </div>
                 <div class="mb-1">
                     <label asp-for="Middlename" class="form-label">Middle name</label>
-                    <input asp-for="Middlename" class="form-control" id="middleNameInput" readonly disabled />
+                    <input asp-for="Middlename" class="form-control" id="MiddleName" readonly disabled />
                 </div>
                 <div class="mb-1">
                     <label asp-for="LastName" class="form-label">Last name</label>
-                    <input asp-for="LastName" class="form-control" id="lastNameInput" readonly disabled/>
+                    <input asp-for="LastName" class="form-control" id="LastName" readonly disabled/>
                 </div>
                 <div class="mb-1">
                     <label asp-for="UserName" class="form-label">User name</label>
-                    <input asp-for="UserName" class="form-control" id="userNameInput" readonly disabled/>
+                    <input asp-for="UserName" class="form-control" id="UserName" readonly disabled/>
                 </div>
                 <div class="mb-1">
                     <label asp-for="UserEmail" class="form-label">eMail</label>
-                    <input asp-for="UserEmail" class="form-control" id="userEmailInput" readonly disabled/>
+                    <input asp-for="UserEmail" class="form-control" id="UserEmail" readonly disabled/>
                 </div>
                 <div class="mb-1">
                     <label asp-for="PhoneNumber" class="form-label">Phone number</label>
-                    <input asp-for="PhoneNumber" class="form-control" id="phoneNumberInput" readonly disabled/>
+                    <input asp-for="PhoneNumber" class="form-control" id="PhoneNumber" readonly disabled/>
                 </div>
                 <div class="mb-1">
                     <label asp-for="UserRole" class="form-label">User role</label>
-                    <input asp-for="UserRole" class="form-control" id="userRoleInput" readonly disabled/>
+                    <input asp-for="UserRole" class="form-control" id="UserRole" readonly disabled/>
                 </div>
                 
                 <!-- Campos descomentados com IDs adicionados -->
@@ -94,44 +96,85 @@
     
 </div>
 
-
 <script>
-    const selectedID = document.getElementById("userSelect");
+    $(function () {
+        $("#userSelect").on("change", function () {
+            const userId = $(this).val();
 
-    selectedID.addEventListener("change", async function () {
+            if (!userId) {
+                limparCampos();
+                return;
+            }
 
-        const userId = this.value;
-            
-        // Clear fields if the placeholder option is selected
-        if (!userId) {
-            clearFormFields();
-            return;
-        }
-
-        try {
-            const response = await fetch(`/Technician/GetUserDetails?userId=${encodeURIComponent(userId)}`);
-            if (!response.ok) throw new Error("User data not found.");
-
-            const data = await response.json();
-
-            // Map the dynamic data payload to the inputs
-            document.getElementById("firstNameInput").value = data.firstName ?? "";
-            document.getElementById("middleNameInput").value = data.middleName ?? "";
-            document.getElementById("lastNameInput").value = data.lastName ?? "";
-            document.getElementById("userNameInput").value = data.userName ?? "";
-            document.getElementById("userEmailInput").value = data.email ?? "";
-            document.getElementById("phoneNumberInput").value = data.phoneNumber ?? "";
-            document.getElementById("userRoleInput").value = data.userRole ?? "";
-        } catch (error) {
-            console.error("Error fetching user details:", error);
-        }
+            $.ajax({
+                url: `/Technician/GetUser/${encodeURIComponent(userId)}`,
+                method: "GET",
+                dataType: "json"
+            })
+            .done(function (user) {
+                $("#FirstName").val(user.firstName ?? "");
+                $("#MiddleName").val(user.middlename ?? "");
+                $("#LastName").val(user.lastName ?? "");
+                $("#UserName").val(user.userName ?? "");
+                $("#UserEmail").val(user.userEmail ?? "");
+                $("#PhoneNumber").val(user.phoneNumber ?? "");
+                $("#UserRole").val(user.userRole ?? "");
+            })
+            .fail(function () {
+                limparCampos();
+                alert("Usuário não encontrado.");
+            });
+        });
     });
-</script>
 
-<script>
-    function clearFormFields() {
-        const fields = ["firstNameInput", "middleNameInput", "lastNameInput", "userNameInput", "userEmailInput", "phoneNumberInput", "userRoleInput";
-        fields.forEach(id => document.getElementById(id).value = "");
+    function limparCampos() {
+        $("#FirstName, #MiddleName, #LastName, #UserName, #UserEmail, #PhoneNumber, #UserRole").val("");
     }
 </script>
 
+
+
+@*
+
+<script>
+    document.getElementById("userSelect").addEventListener("change", async function () {
+        const userId = this.value;
+
+        if (!userId) {
+            limparCampos();
+            return;
+        }
+
+        const response = await fetch(
+            `/Technician/GetUser/${encodeURIComponent(userId)}`
+        );
+
+        if (!response.ok) {
+            limparCampos();
+            alert("Usuário não encontrado.");
+            return;
+        }
+
+        const user = await response.json();
+
+        document.getElementById("FirstName").value = user.firstName ?? "";
+        document.getElementById("MiddleName").value = user.middlename ?? "";
+        document.getElementById("LastName").value = user.lastName ?? "";
+        document.getElementById("UserName").value = user.userName ?? "";
+        document.getElementById("UserEmail").value = user.userEmail ?? "";
+        document.getElementById("PhoneNumber").value = user.phoneNumber ?? "";
+        document.getElementById("UserRole").value = user.userRole ?? "";
+    });
+
+    function limparCampos() {
+        document.getElementById("FirstName").value = "";
+        document.getElementById("Middlename").value = "";
+        document.getElementById("LastName").value = "";
+        document.getElementById("UserName").value = "";
+        document.getElementById("UserEmail").value = "";
+        document.getElementById("PhoneNumber").value = "";
+        document.getElementById("UserRole").value = "";
+    }
+</script>
+
+*@

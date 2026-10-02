@@ -25,7 +25,7 @@ namespace ServiceOrderManager.Data.Configuration
             builder.HasOne(t => t.User)
                 .WithOne(su => su.Technician)
                 .HasForeignKey<Technician>(t => t.UserId)
-                .IsRequired()
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasIndex(t => t.UserId)

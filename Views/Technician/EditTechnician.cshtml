@@ -1,4 +1,4 @@
-﻿@model ServiceOrderManager.Models.ViewModels.UserTechnicianViewModel
+﻿@model ServiceOrderManager.Models.ViewModels.TechnicianViewModel
 
 @{
     ViewData["Title"] = "Edit Technician";
@@ -30,9 +30,9 @@
                         <span asp-validation-for="Id" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
-                        <label asp-for="SelectedUserId" class="form-label"></label>
-                        <input asp-for="SelectedUserId" class="form-control" readonly />
-                        <span asp-validation-for="SelectedUserId" class="text-danger"></span>
+                        <label asp-for="UserId" class="form-label"></label>
+                        <input asp-for="UserId" class="form-control" readonly />
+                        <span asp-validation-for="UserId" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="FirstName" class="form-label"></label>
